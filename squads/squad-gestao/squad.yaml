@@ -1,0 +1,57 @@
+# Squad de Gestão
+# Resolve: clareza de prioridades, reuniões que geram resultado, decisões estratégicas
+
+name: squad-gestao
+display_name: "Squad de Gestão"
+description: "Time de gestão — prioridades, reuniões, estratégia e relatórios"
+version: "1.0.0"
+color: "#6366f1"
+
+agents:
+  - id: prioridade-semanal
+    name: "Agente de Prioridade Semanal"
+    description: "Define as 3 prioridades que realmente movem o negócio essa semana"
+    file: agents/prioridade-semanal.md
+    command: /squad-gestao:prioridade
+    tags: [gestao, foco, execucao]
+
+  - id: reuniao
+    name: "Agente de Reunião"
+    description: "Transforma notas bagunçadas em atas com tarefas, donos e prazos"
+    file: agents/reuniao.md
+    command: /squad-gestao:reuniao
+    tags: [gestao, reuniao, ata]
+
+  - id: estrategico-pessoal
+    name: "Agente Estratégico"
+    description: "Advisor que fala a verdade — First Principles, Inversion, Strategic Cascade"
+    file: agents/estrategico-pessoal.md
+    command: /squad-gestao:estrategia
+    tags: [estrategia, decisao, planejamento]
+
+  - id: relatorio-semanal
+    name: "Agente de Relatório"
+    description: "Gera relatório semanal do negócio pronto para compartilhar com sócios"
+    file: agents/relatorio-semanal.md
+    command: /squad-gestao:relatorio
+    tags: [gestao, relatorio, metricas]
+
+workflows:
+  - id: rotina-semanal
+    name: "Rotina Semanal do Dono"
+    description: "Segunda: prioridades → Sexta: relatório + ata das reuniões"
+    steps:
+      - agent: prioridade-semanal
+        task: "Defina as prioridades da semana"
+      - agent: reuniao
+        task: "Processe as atas das reuniões da semana"
+      - agent: relatorio-semanal
+        task: "Gere o relatório da semana"
+
+tasks:
+  - "Definir prioridades desta semana"
+  - "Processar ata da reunião [cole o conteúdo]"
+  - "Analisar decisão estratégica: [descreva o dilema]"
+  - "Gerar relatório semanal do negócio"
+  - "Fazer revisão da semana passada"
+  - "Analisar oportunidade: [descreva]"

@@ -1,0 +1,49 @@
+# Squad de Operações
+# Resolve: negócio dependente do dono, processos inconsistentes, contratações erradas
+
+name: squad-operacoes
+display_name: "Squad de Operações"
+description: "Time de operações — processos, contratação e delegação"
+version: "1.0.0"
+color: "#ef4444"
+
+agents:
+  - id: operacional
+    name: "Agente Operacional"
+    description: "Identifica gargalos e mapeia processos — Theory of Constraints + EOS"
+    file: agents/operacional.md
+    command: /squad-operacoes:operacional
+    tags: [operacoes, processos, gargalo]
+
+  - id: contratacao
+    name: "Agente de Contratação"
+    description: "Processo seletivo para contratar A-players — Topgrading + STAR"
+    file: agents/contratacao.md
+    command: /squad-operacoes:contratacao
+    tags: [rh, contratacao, entrevista]
+
+  - id: delegacao
+    name: "Agente de Delegação"
+    description: "Libera o dono das tarefas que o time pode fazer"
+    file: agents/delegacao.md
+    command: /squad-operacoes:delegacao
+    tags: [gestao, delegacao, leverage]
+
+workflows:
+  - id: escalar-sem-contratar
+    name: "Escalar sem Contratar"
+    description: "Mapeia processos → identifica o que delegar → libera o dono"
+    steps:
+      - agent: operacional
+        task: "Mapeie o processo mais problemático da semana"
+      - agent: delegacao
+        task: "Identifique o que o dono pode parar de fazer essa semana"
+
+tasks:
+  - "Mapear processo: [descreva o processo problemático]"
+  - "Identificar gargalo do negócio"
+  - "Criar processo seletivo para vaga: [cargo]"
+  - "Avaliar candidato: [cole CV ou notas da entrevista]"
+  - "Auditoria de delegação — o que posso parar de fazer?"
+  - "Criar checklist para processo: [nome do processo]"
+  - "Criar script de delegação para tarefa: [tarefa]"

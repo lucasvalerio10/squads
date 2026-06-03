@@ -1,0 +1,59 @@
+# Squad Comercial
+# Resolve: fechar mais vendas, com os clientes certos, mais rápido
+
+name: squad-comercial
+display_name: "Squad Comercial"
+description: "Time de vendas completo — prospecção, proposta, follow-up e atendimento"
+version: "1.0.0"
+color: "#22c55e"
+
+agents:
+  - id: prospeccao
+    name: "Agente de Prospecção"
+    description: "Encontra e aborda os leads certos com mensagens personalizadas"
+    file: agents/prospeccao.md
+    command: /squad-comercial:prospeccao
+    tags: [vendas, leads, outbound]
+
+  - id: proposta-comercial
+    name: "Agente de Proposta Comercial"
+    description: "Cria propostas que fecham — MEDDIC + Challenger Sale"
+    file: agents/proposta-comercial.md
+    command: /squad-comercial:proposta
+    tags: [vendas, proposta, fechamento]
+
+  - id: follow-up
+    name: "Agente de Follow-up"
+    description: "Reengaja leads silenciosos com valor, nunca com cobrança"
+    file: agents/follow-up.md
+    command: /squad-comercial:followup
+    tags: [vendas, follow-up, reengajamento]
+
+  - id: atendimento
+    name: "Agente de Atendimento"
+    description: "Trata objeções, reclamações e risco de churn — LAER + Harvard"
+    file: agents/atendimento.md
+    command: /squad-comercial:atendimento
+    tags: [atendimento, objecoes, retencao]
+
+workflows:
+  - id: ciclo-de-venda
+    name: "Ciclo Completo de Venda"
+    description: "Prospecção → Proposta → Follow-up até fechar"
+    steps:
+      - agent: prospeccao
+        task: "Identifique e aborde 10 leads do ICP"
+      - agent: proposta-comercial
+        task: "Crie proposta personalizada para os leads que responderam"
+      - agent: follow-up
+        task: "Execute cadência de follow-up nos que não responderam"
+      - agent: atendimento
+        task: "Trate objeções dos leads em negociação"
+
+tasks:
+  - "Gerar lista de leads qualificados para essa semana"
+  - "Criar proposta para [nome do cliente]"
+  - "Reengajar leads que sumiram após a proposta"
+  - "Tratar objeção de preço do cliente [nome]"
+  - "Criar guia completo de objeções da empresa"
+  - "Analisar pipeline atual e recomendar próximos passos"

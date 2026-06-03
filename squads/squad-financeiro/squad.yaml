@@ -1,0 +1,39 @@
+# Squad Financeiro
+# Resolve: falta de clareza nos números, precificação errada, decisões sem dados
+
+name: squad-financeiro
+display_name: "Squad Financeiro"
+description: "Time financeiro — análise de dados, precificação e fluxo de caixa"
+version: "1.0.0"
+color: "#8b5cf6"
+
+agents:
+  - id: analise-financeira
+    name: "Agente de Análise Financeira"
+    description: "Transforma dados brutos em decisões claras — CFO lens + 80/20"
+    file: agents/analise-financeira.md
+    command: /squad-financeiro:analise
+    tags: [financeiro, dre, metricas]
+
+  - id: precificacao
+    name: "Agente de Precificação"
+    description: "Define o preço certo baseado em valor, não em custo"
+    file: agents/precificacao.md
+    command: /squad-financeiro:preco
+    tags: [financeiro, preco, posicionamento]
+
+workflows:
+  - id: fechamento-mensal
+    name: "Fechamento Mensal"
+    description: "Análise do mês → DRE → Decisão da semana"
+    steps:
+      - agent: analise-financeira
+        task: "Analise os números do mês e gere a DRE simplificada"
+
+tasks:
+  - "Analisar números do mês: [cole os dados]"
+  - "Gerar DRE simplificada do mês"
+  - "Analisar precificação do produto principal"
+  - "Criar estrutura de planos e preços"
+  - "Criar script para comunicar reajuste de preço"
+  - "Analisar fluxo de caixa das próximas 4 semanas"

@@ -1,0 +1,130 @@
+# ============================================================
+#  EMPRESA.YAML — Contexto central da empresa
+#  Preenchido uma vez na instalação. Lido por todos os agentes.
+#  Localização: ~/.squads/empresa.yaml
+# ============================================================
+
+# --- IDENTIDADE ---
+empresa:
+  nome: "Nome da Empresa"
+  nome_curto: "Apelido ou sigla"          # usado em comunicações informais
+  segmento: "Ex: SaaS B2B / E-commerce / Clínica / Agência"
+  tamanho: "Ex: 1-10 / 10-50 / 50-200"
+  fundacao: "2019"
+  site: "https://suaempresa.com.br"
+  localizacao: "São Paulo, SP"
+
+# --- PRODUTO / SERVIÇO ---
+produto:
+  nome: "Nome do produto principal"
+  descricao_curta: "Uma linha: o que faz e para quem"
+  descricao_completa: |
+    Descrição mais detalhada do produto ou serviço.
+    Pode ter 2-3 parágrafos. Os agentes usam isso para
+    falar com precisão sobre o que a empresa oferece.
+  ticket_medio: "R$ 000"
+  modelo_receita: "Ex: recorrência mensal / projeto / consultoria"
+  diferenciais:
+    - "Diferencial 1"
+    - "Diferencial 2"
+    - "Diferencial 3"
+
+# --- CLIENTE IDEAL (ICP) ---
+cliente_ideal:
+  perfil: "Ex: Dono de clínica odontológica com 2-5 cadeiras"
+  cargo_decisor: "Ex: CEO / Sócio / Diretor Comercial"
+  setor: "Ex: Saúde / Varejo / Educação"
+  tamanho_empresa: "Ex: 5-50 funcionários"
+  localizacao: "Ex: Brasil, capitais e interior"
+  dores_principais:
+    - "Dor 1 que seu produto resolve"
+    - "Dor 2 que seu produto resolve"
+    - "Dor 3 que seu produto resolve"
+  gatilhos_compra:
+    - "O que faz o cliente decidir comprar agora"
+    - "Ex: crescimento rápido sem processos"
+
+# --- POSICIONAMENTO ---
+posicionamento:
+  proposta_de_valor: "Uma frase: para quem, o quê, diferencial"
+  tom_de_voz: "Ex: direto, consultivo, sem formalidade excessiva"
+  palavras_proibidas:
+    - "sinergia"
+    - "robusto"
+    - "solução"        # muito genérico
+  estilo_comunicacao: "Ex: próximo, data-driven, sem rodeios"
+
+# --- CONCORRÊNCIA ---
+concorrentes:
+  diretos:
+    - nome: "Concorrente A"
+      fraqueza: "O que eles fazem pior que você"
+    - nome: "Concorrente B"
+      fraqueza: "O que eles fazem pior que você"
+  como_se_diferenciar: |
+    Narrativa de 2-3 linhas de como você se posiciona
+    em relação à concorrência quando alguém pergunta.
+
+# --- VENDAS ---
+vendas:
+  ciclo_medio: "Ex: 7 dias / 30 dias / 3 meses"
+  canais_principais:
+    - "Instagram"
+    - "Indicação"
+    - "LinkedIn"
+  objecoes_frequentes:
+    - objecao: "Tá caro"
+      resposta: "Como você rebate isso"
+    - objecao: "Deixa eu pensar"
+      resposta: "Como você rebate isso"
+    - objecao: "Já uso outro fornecedor"
+      resposta: "Como você rebate isso"
+  script_abertura: |
+    Modelo de abertura de contato que funciona para vocês.
+    Os agentes de prospecção vão usar isso como base.
+
+# --- MARKETING ---
+marketing:
+  canais_ativos:
+    - "Instagram"
+    - "Email"
+    - "WhatsApp"
+  publico_conteudo: "Para quem você produz conteúdo"
+  pilares_conteudo:
+    - "Pilar 1: Ex: Educação sobre o problema"
+    - "Pilar 2: Ex: Cases e resultados"
+    - "Pilar 3: Ex: Bastidores da empresa"
+  cta_principal: "Ex: Agendar uma conversa / Testar grátis 14 dias"
+
+# --- FINANCEIRO ---
+financeiro:
+  moeda: "BRL"
+  regime_tributario: "Ex: Simples Nacional / Lucro Presumido"
+  periodo_fiscal: "Janeiro a Dezembro"
+  metas:
+    mrr_atual: "R$ 00.000"
+    mrr_meta: "R$ 00.000"
+    prazo_meta: "Ex: Dezembro 2025"
+
+# --- TIME ---
+time:
+  fundadores:
+    - nome: "Seu Nome"
+      cargo: "CEO"
+  areas_com_time:
+    - "Comercial"
+    - "Marketing"
+  areas_solo:
+    - "Financeiro"
+    - "Operações"
+
+# --- METAS ATUAIS ---
+metas_trimestre:
+  foco_principal: "Ex: Aumentar MRR de 30k para 50k"
+  iniciativas:
+    - "Iniciativa 1"
+    - "Iniciativa 2"
+  metricas_acompanhadas:
+    - "MRR"
+    - "Churn"
+    - "CAC"

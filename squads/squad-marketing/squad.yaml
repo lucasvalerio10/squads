@@ -1,0 +1,60 @@
+# Squad de Marketing
+# Resolve: conteúdo que converte, anúncios que qualificam, pesquisa que informa
+
+name: squad-marketing
+display_name: "Squad de Marketing"
+description: "Time de marketing — conteúdo, anúncios, email e pesquisa de mercado"
+version: "1.0.0"
+color: "#f59e0b"
+
+agents:
+  - id: conteudo
+    name: "Agente de Conteúdo"
+    description: "Transforma ideias brutas em conteúdo que para o scroll e gera ação"
+    file: agents/conteudo.md
+    command: /squad-marketing:conteudo
+    tags: [marketing, conteudo, redes-sociais]
+
+  - id: copy-anuncio
+    name: "Agente de Copy de Anúncio"
+    description: "Cria 3 versões para teste A/B/C — Schwartz + resposta direta"
+    file: agents/copy-anuncio.md
+    command: /squad-marketing:anuncio
+    tags: [marketing, trafego, copy]
+
+  - id: email-marketing
+    name: "Agente de Email Marketing"
+    description: "Sequências de email que nutrem, convertem e retêm"
+    file: agents/email-marketing.md
+    command: /squad-marketing:email
+    tags: [marketing, email, nutricao]
+
+  - id: pesquisa-mercado
+    name: "Agente de Pesquisa de Mercado"
+    description: "Inteligência competitiva e análise de ICP — Jobs to Be Done"
+    file: agents/pesquisa-mercado.md
+    command: /squad-marketing:pesquisa
+    tags: [marketing, pesquisa, concorrencia]
+
+workflows:
+  - id: lancamento
+    name: "Workflow de Lançamento"
+    description: "Pesquisa → Conteúdo de aquecimento → Email → Anúncio"
+    steps:
+      - agent: pesquisa-mercado
+        task: "Analise o mercado e mapeie o Jobs to Be Done do ICP"
+      - agent: conteudo
+        task: "Crie sequência de conteúdo de aquecimento pré-lançamento"
+      - agent: email-marketing
+        task: "Crie sequência de email de lançamento"
+      - agent: copy-anuncio
+        task: "Crie 3 versões de anúncio para o lançamento"
+
+tasks:
+  - "Criar carrossel para Instagram sobre [tema]"
+  - "Criar roteiro de Reels: [ideia bruta]"
+  - "Criar 3 versões de anúncio para [produto/oferta]"
+  - "Criar sequência de boas-vindas para novos leads"
+  - "Analisar concorrente: [nome]"
+  - "Criar sequência de email de nutrição de [X] emails"
+  - "Criar legenda para post: [tema ou contexto]"

@@ -1,0 +1,48 @@
+# Squad de Customer Success
+# Resolve: churn, clientes que não chegam ao resultado, onboarding fraco
+
+name: squad-cs
+display_name: "Squad de Customer Success"
+description: "Time de CS — onboarding, atendimento e retenção de clientes"
+version: "1.0.0"
+color: "#06b6d4"
+
+agents:
+  - id: onboarding-cliente
+    name: "Agente de Onboarding"
+    description: "Garante que o cliente chegue ao First Value Moment — Lincoln Murphy"
+    file: agents/onboarding-cliente.md
+    command: /squad-cs:onboarding
+    tags: [cs, onboarding, retencao]
+
+  - id: atendimento
+    name: "Agente de Atendimento"
+    description: "Trata objeções, reclamações e situações difíceis — LAER + Harvard"
+    file: ../../squad-comercial/agents/atendimento.md
+    command: /squad-cs:atendimento
+    tags: [cs, atendimento, objecoes]
+
+  - id: anti-churn
+    name: "Agente Anti-Churn"
+    description: "Identifica e intervém antes que o cliente cancele"
+    file: agents/anti-churn.md
+    command: /squad-cs:churn
+    tags: [cs, retencao, churn]
+
+workflows:
+  - id: salvar-cliente
+    name: "Salvar Cliente em Risco"
+    description: "Identificar risco → Intervir → Reter ou encerrar com elegância"
+    steps:
+      - agent: anti-churn
+        task: "Diagnostique o nível de risco e crie a intervenção"
+      - agent: atendimento
+        task: "Execute o atendimento da situação"
+
+tasks:
+  - "Criar plano de onboarding para [produto]"
+  - "Cliente em risco: [descreva a situação]"
+  - "Cliente pediu cancelamento: [descreva o contexto]"
+  - "Criar sistema de health score para minha base"
+  - "Criar mensagem de boas-vindas para novo cliente"
+  - "Tratar reclamação: [descreva]"
