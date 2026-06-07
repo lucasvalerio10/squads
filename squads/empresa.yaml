@@ -1,0 +1,128 @@
+# ============================================================
+#  EMPRESA.YAML — Contexto central da empresa
+# ============================================================
+
+empresa:
+  nome: "LXD Digital"
+  nome_curto: "LXD"
+  segmento: "Consultoria e Implementação de IA para Negócios"
+  tamanho: "1-10"
+  fundacao: "2025"
+  site: "https://lxd.digital"
+  localizacao: "São Paulo, SP"
+
+produto:
+  nome: "Implementação de IA para Empresas"
+  descricao_curta: "Sites, agentes de IA, automações e sistemas para aumentar produtividade e vendas."
+  descricao_completa: |
+    A LXD Digital ajuda empresas a implementar inteligência artificial
+    de forma prática e orientada a resultado.
+
+    Atua na criação de sites com IA, agentes para WhatsApp,
+    dashboards personalizados, automações e consultoria estratégica.
+
+    O foco é reduzir tarefas operacionais, aumentar conversão,
+    acelerar atendimento e criar operações mais eficientes.
+  ticket_medio: "R$ 1.997"
+  modelo_receita: "Projeto, setup e consultoria"
+  diferenciais:
+    - "Implementação prática e personalizada"
+    - "Experiência em grandes empresas e negócios digitais"
+    - "Entrega rápida com foco em resultado"
+
+cliente_ideal:
+  perfil: "Empresários, profissionais liberais e empresas que desejam implementar IA"
+  cargo_decisor: "CEO, Sócio ou Diretor"
+  setor: "Serviços, Infoprodutos, Educação, Saúde e Negócios Digitais"
+  tamanho_empresa: "1 a 50 funcionários"
+  localizacao: "Brasil"
+  dores_principais:
+    - "Perda de tempo em tarefas repetitivas"
+    - "Leads sem atendimento rápido"
+    - "Falta de automação e processos"
+  gatilhos_compra:
+    - "Aumentar produtividade"
+    - "Reduzir custos operacionais"
+    - "Escalar vendas e atendimento"
+
+posicionamento:
+  proposta_de_valor: "Implementamos IA de forma prática para gerar produtividade, vendas e escala."
+  tom_de_voz: "Direto, estratégico e sem enrolação"
+  palavras_proibidas:
+    - "sinergia"
+    - "robusto"
+    - "solução"
+  estilo_comunicacao: "Próximo, objetivo e orientado a resultados"
+
+concorrentes:
+  diretos:
+    - nome: "Agências de Automação"
+      fraqueza: "Foco excessivo em ferramenta e pouco em estratégia"
+    - nome: "Consultores de IA Genéricos"
+      fraqueza: "Pouca experiência prática em implementação"
+  como_se_diferenciar: |
+    A LXD Digital não vende apenas tecnologia.
+    Atua na estratégia, implementação e acompanhamento,
+    focando em resultado real para o negócio.
+
+vendas:
+  ciclo_medio: "7 a 30 dias"
+  canais_principais:
+    - "Instagram"
+    - "WhatsApp"
+    - "Indicação"
+    - "LinkedIn"
+  objecoes_frequentes:
+    - objecao: "Está caro"
+      resposta: "O custo da ineficiência normalmente é maior que o investimento."
+    - objecao: "Vou pensar"
+      resposta: "Oportunidades e eficiência perdidas também têm custo."
+    - objecao: "Já uso outra ferramenta"
+      resposta: "Ferramenta sem estratégia raramente gera resultado."
+  script_abertura: |
+    Olá, vi que sua empresa pode ganhar produtividade com IA.
+    Posso entender rapidamente como funciona sua operação hoje?
+
+marketing:
+  canais_ativos:
+    - "Instagram"
+    - "WhatsApp"
+    - "LinkedIn"
+  publico_conteudo: "Empresários e profissionais que desejam implementar IA"
+  pilares_conteudo:
+    - "IA aplicada a negócios"
+    - "Cases e resultados"
+    - "Produtividade e automação"
+  cta_principal: "Agendar uma conversa"
+
+financeiro:
+  moeda: "BRL"
+  regime_tributario: "Simples Nacional"
+  periodo_fiscal: "Janeiro a Dezembro"
+  metas:
+    mrr_atual: "Não informado"
+    mrr_meta: "Não informado"
+    prazo_meta: "Não informado"
+
+time:
+  fundadores:
+    - nome: "Lucas Valério"
+      cargo: "Founder & Strategist"
+  areas_com_time:
+    - "Projetos"
+    - "Marketing"
+  areas_solo:
+    - "Financeiro"
+    - "Operações"
+
+metas_trimestre:
+  foco_principal: "Expandir projetos de implementação de IA"
+  iniciativas:
+    - "Aquisição de novos clientes"
+    - "Criação de agentes de IA especializados"
+    - "Expansão de consultorias e mentorias"
+  metricas_acompanhadas:
+    - "Faturamento"
+    - "Leads"
+    - "Conversão"
+    - "Projetos fechados"

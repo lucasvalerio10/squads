@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squads — Times de IA para Empresários</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #21C45D;
+    --green-dark: #16a34a;
+    --green-light: #dcfce7;
+    --dark: #111827;
+    --dark2: #1f2937;
+    --gray: #6b7280;
+    --gray-light: #f9fafb;
+    --border: #e5e7eb;
+    --white: #ffffff;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--dark);
+    background: var(--white);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--dark);
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--green);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--dark); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--green-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--dark);
+    border: 1.5px solid var(--border);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--dark);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 80px 5% 60px;
+    text-align: center;
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+
+  .hero-badge span { font-size: 16px; }
+
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--dark);
+    max-width: 760px;
+    margin: 0 auto 20px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--gray);
+    max-width: 520px;
+    margin: 0 auto 36px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
+  }
+
+  .hero-actions .btn {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--dark);
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+
+  /* SECTION */
+  section {
+    padding: 72px 5%;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 12px;
+  }
+
+  .section-header p {
+    font-size: 16px;
+    color: var(--gray);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* SQUADS GRID */
+  .squads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .squad-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.25s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .squad-card:hover {
+    border-color: var(--green);
+    box-shadow: 0 8px 32px rgba(33,196,93,0.12);
+    transform: translateY(-3px);
+  }
+
+  .squad-card-header {
+    padding: 24px 24px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .squad-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .squad-card-info h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .squad-card-info p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  .squad-card-body {
+    padding: 0 24px 20px;
+  }
+
+  .squad-agents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .agent-tag {
+    background: var(--gray-light);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+  }
+
+  .squad-card-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .squad-meta {
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .squad-meta strong {
+    color: var(--dark);
+    font-weight: 600;
+  }
+
+  .squad-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--green-dark);
+    font-size: 16px;
+    transition: background 0.2s;
+  }
+
+  .squad-card:hover .squad-arrow {
+    background: var(--green);
+    color: white;
+  }
+
+  /* HOW IT WORKS */
+  .how-bg { background: var(--gray-light); }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .step-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--green);
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .step-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .step-card p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  .step-code {
+    background: var(--dark);
+    color: var(--green);
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 12px;
+    display: inline-block;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--dark);
+    color: white;
+    text-align: center;
+    padding: 80px 5%;
+  }
+
+  .cta-section h2 {
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .cta-section h2 em {
+    font-style: normal;
+    color: var(--green);
+  }
+
+  .cta-section p {
+    font-size: 16px;
+    color: #9ca3af;
+    max-width: 460px;
+    margin: 0 auto 36px;
+  }
+
+  .cta-section .btn-primary {
+    padding: 16px 36px;
+    font-size: 16px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2);
+    color: #9ca3af;
+    padding: 48px 5% 28px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-brand .nav-logo {
+    color: white;
+    margin-bottom: 12px;
+    display: inline-flex;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 240px;
+  }
+
+  .footer-col h4 {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col ul a {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul a:hover { color: white; }
+
+  .footer-bottom {
+    border-top: 1px solid #374151;
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 16px;
+  }
+
+  .social-links a {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  .social-links a:hover { color: white; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { padding: 56px 5% 48px; }
+    .hero-stats { gap: 28px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">S</div>
+    Squads
+  </a>
+  <ul class="nav-links">
+    <li><a href="#squads">Times</a></li>
+    <li><a href="instalacao.html">Instalação</a></li>
+    <li><a href="aulas.html">Aulas</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;">
+    <a href="aulas.html" class="btn btn-outline">Área do Cliente</a>
+    <a href="https://pay.kiwify.com.br/squads" class="btn btn-primary">Começar agora →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge"><span>⚡</span> 18 agentes. 6 times. Uma empresa mais eficiente.</div>
+  <h1>Seu time de <em>IA especializado</em> no seu negócio</h1>
+  <p>Cada agente já sabe quem você é, o que vende e para quem. Configure uma vez. Use para sempre.</p>
+  <div class="hero-actions">
+    <a href="https://pay.kiwify.com.br/squads" class="btn btn-primary">Quero meu time de IA →</a>
+    <a href="#squads" class="btn btn-outline">Ver os times</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Squads ativos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">18</div>
+      <div class="stat-label">Agentes especializados</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Configuração única</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Tarefas automatizadas</div>
+    </div>
+  </div>
+</div>
+
+<!-- SQUADS -->
+<section id="squads">
+  <div class="section-header">
+    <span class="section-label">Os times</span>
+    <h2>Qual é o maior problema da sua empresa agora?</h2>
+    <p>Cada squad resolve uma área específica com agentes treinados nas melhores metodologias do mundo.</p>
+  </div>
+
+  <div class="squads-grid">
+
+    <a href="squad-comercial.html" class="squad-card">
+      <div class="squad-card-header">
+        <div class="squad-icon" style="background:#dcfce7;">💼</div>
+        <div class="squad-card-info">
+          <h3>Squad Comercial</h3>
+          <p>Fechar mais vendas, com os clientes certos, mais rápido.</p>
+        </div>
+      </div>
+      <div class="squad-card-body">
+        <div class="squad-agents">
+          <span class="agent-tag">Prospecção</span>
+          <span class="agent-tag">Proposta</span>
+          <span class="agent-tag">Follow-up</span>
+          <span class="agent-tag">Atendimento</span>
+        </div>
+      </div>
+      <div class="squad-card-footer">
+        <div class="squad-meta"><strong>4</strong> agentes · MEDDIC + Challenger Sale</div>
+        <div class="squad-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="squad-gestao.html" class="squad-card">
+      <div class="squad-card-header">
+        <div class="squad-icon" style="background:#ede9fe;">🎯</div>
+        <div class="squad-card-info">
+          <h3>Squad de Gestão</h3>
+          <p>Clareza de prioridades, reuniões com resultado, decisões estratégicas.</p>
+        </div>
+      </div>
+      <div class="squad-card-body">
+        <div class="squad-agents">
+          <span class="agent-tag">Prioridade Semanal</span>
+          <span class="agent-tag">Reunião</span>
+          <span class="agent-tag">Estratégia</span>
+          <span class="agent-tag">Relatório</span>
+        </div>
+      </div>
+      <div class="squad-card-footer">
+        <div class="squad-meta"><strong>4</strong> agentes · OKR + Eisenhower</div>
+        <div class="squad-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="squad-marketing.html" class="squad-card">
+      <div class="squad-card-header">
+        <div class="squad-icon" style="background:#fef9c3;">📣</div>
+        <div class="squad-card-info">
+          <h3>Squad de Marketing</h3>
+          <p>Conteúdo que converte, anúncios que qualificam, pesquisa que informa.</p>
+        </div>
+      </div>
+      <div class="squad-card-body">
+        <div class="squad-agents">
+          <span class="agent-tag">Conteúdo</span>
+          <span class="agent-tag">Anúncio A/B/C</span>
+          <span class="agent-tag">Email</span>
+          <span class="agent-tag">Pesquisa</span>
+        </div>
+      </div>
+      <div class="squad-card-footer">
+        <div class="squad-meta"><strong>4</strong> agentes · Schwartz + JTBD</div>
+        <div class="squad-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="squad-operacoes.html" class="squad-card">
+      <div class="squad-card-header">
+        <div class="squad-icon" style="background:#fee2e2;">⚙️</div>
+        <div class="squad-card-info">
+          <h3>Squad de Operações</h3>
+          <p>Negócio que funciona sem você. Processos, contratações e delegação.</p>
+        </div>
+      </div>
+      <div class="squad-card-body">
+        <div class="squad-agents">
+          <span class="agent-tag">Operacional</span>
+          <span class="agent-tag">Contratação</span>
+          <span class="agent-tag">Delegação</span>
+        </div>
+      </div>
+      <div class="squad-card-footer">
+        <div class="squad-meta"><strong>3</strong> agentes · Theory of Constraints</div>
+        <div class="squad-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="squad-financeiro.html" class="squad-card">
+      <div class="squad-card-header">
+        <div class="squad-icon" style="background:#ede9fe;">📊</div>
+        <div class="squad-card-info">
+          <h3>Squad Financeiro</h3>
+          <p>Clareza nos números, precificação certa, decisões com dados.</p>
+        </div>
+      </div>
+      <div class="squad-card-body">
+        <div class="squad-agents">
+          <span class="agent-tag">Análise Financeira</span>
+          <span class="agent-tag">Precificação</span>
+        </div>
+      </div>
+      <div class="squad-card-footer">
+        <div class="squad-meta"><strong>2</strong> agentes · CFO Lens + Value Pricing</div>
+        <div class="squad-arrow">→</div>
+      </div>
+    </a>
+
+    <a href="squad-cs.html" class="squad-card">
+      <div class="squad-card-header">
+        <div class="squad-icon" style="background:#cffafe;">🤝</div>
+        <div class="squad-card-info">
+          <h3>Squad de CS</h3>
+          <p>Clientes que ficam, crescem e indicam. Retenção e sucesso do cliente.</p>
+        </div>
+      </div>
+      <div class="squad-card-body">
+        <div class="squad-agents">
+          <span class="agent-tag">Onboarding</span>
+          <span class="agent-tag">Atendimento</span>
+          <span class="agent-tag">Anti-Churn</span>
+        </div>
+      </div>
+      <div class="squad-card-footer">
+        <div class="squad-meta"><strong>3</strong> agentes · Lincoln Murphy + NRR</div>
+        <div class="squad-arrow">→</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-bg">
+  <div class="section-header">
+    <span class="section-label">Como funciona</span>
+    <h2>Do zero ao time funcionando em 4 passos</h2>
+    <p>Sem complicação. Sem precisar saber programar.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <h3>Instala o Claude Code</h3>
+      <p>Um único comando no terminal instala tudo que você precisa.</p>
+      <span class="step-code">npm install -g @anthropic-ai/claude-code</span>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <h3>Baixa os Squads</h3>
+      <p>O instalador clona todos os times e pergunta sobre seu negócio.</p>
+      <span class="step-code">curl [...] | bash</span>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h3>Configura sua empresa</h3>
+      <p>Preenche uma vez: produto, cliente ideal, metas. Todos os agentes usam isso.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <h3>Usa seu time</h3>
+      <p>Abre o terminal e chama o agente que precisa. Ele já sabe quem é sua empresa.</p>
+      <span class="step-code">/squad-gestao:prioridade</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Pare de fazer tudo <em>sozinho</em></h2>
+  <p>18 agentes especializados no seu negócio. Configure uma vez, use para sempre.</p>
+  <a href="https://pay.kiwify.com.br/squads" class="btn btn-primary">Quero meu time de IA agora →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">S</div>
+        Squads
+      </a>
+      <p>Times de IA especializados no seu negócio. Configure uma vez, use para sempre.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Times</h4>
+      <ul>
+        <li><a href="squad-comercial.html">Squad Comercial</a></li>
+        <li><a href="squad-gestao.html">Squad Gestão</a></li>
+        <li><a href="squad-marketing.html">Squad Marketing</a></li>
+        <li><a href="squad-operacoes.html">Squad Operações</a></li>
+        <li><a href="squad-financeiro.html">Squad Financeiro</a></li>
+        <li><a href="squad-cs.html">Squad CS</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Produto</h4>
+      <ul>
+        <li><a href="instalacao.html">Instalação</a></li>
+        <li><a href="aulas.html">Área do Cliente</a></li>
+        <li><a href="https://github.com/lucasvalerio10/squads">GitHub</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Squads by LXD Digital. Todos os direitos reservados.</span>
+    <div class="social-links">
+      <a href="#">Instagram</a>
+      <a href="#">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

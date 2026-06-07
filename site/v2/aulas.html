@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aulas — Squads</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+:root {
+  --green: #21C45D; --green-dark: #16a34a; --green-light: #dcfce7;
+  --dark: #111827; --dark2: #1f2937; --gray: #6b7280;
+  --gray-light: #f9fafb; --border: #e5e7eb; --white: #ffffff; --radius: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dark); background: var(--gray-light); }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5%; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--dark); text-decoration: none; }
+.logo-icon { width: 36px; height: 36px; background: var(--green); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 16px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; text-decoration: none; border: none; }
+.btn-outline { background: transparent; color: var(--dark); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--dark); }
+
+.page-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 32px 5%; }
+.page-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+.page-header p { color: var(--gray); font-size: 15px; }
+
+/* TAB NAV */
+.tab-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5%;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tab-nav a {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 20px;
+  font-size: 14px; font-weight: 600;
+  color: var(--gray); text-decoration: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.tab-nav a:hover { color: var(--dark); }
+.tab-nav a.active { color: var(--green-dark); border-bottom-color: var(--green); }
+
+.container { max-width: 860px; margin: 0 auto; padding: 36px 5%; }
+
+/* PROGRESS */
+.progress-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 28px; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+}
+.progress-info { flex: 1; min-width: 160px; }
+.progress-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.progress-info p { font-size: 13px; color: var(--gray); }
+.progress-track { flex: 2; min-width: 200px; }
+.progress-bar { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 6px; }
+.progress-fill { height: 100%; background: var(--green); border-radius: 99px; transition: width 0.4s; }
+.progress-label { font-size: 12px; color: var(--gray); }
+
+/* AULA CARD */
+.aulas-list { display: flex; flex-direction: column; gap: 12px; }
+
+.aula-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: all 0.2s;
+}
+.aula-card:hover { border-color: var(--green); box-shadow: 0 4px 16px rgba(33,196,93,0.1); }
+.aula-card.done { border-color: var(--green); }
+
+.aula-card-body {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 24px;
+}
+
+.aula-thumb {
+  width: 100px; height: 60px;
+  border-radius: 8px;
+  background: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.aula-thumb-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.play-icon {
+  position: absolute;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.aula-num-badge {
+  position: absolute; top: 6px; left: 6px;
+  background: rgba(0,0,0,0.6);
+  color: white; font-size: 11px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px;
+}
+
+.aula-info { flex: 1; min-width: 0; }
+.aula-squad { font-size: 11px; font-weight: 700; color: var(--green-dark); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.aula-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aula-meta { font-size: 12px; color: var(--gray); display: flex; gap: 12px; }
+
+.aula-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+.btn-assistir {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green); color: white;
+  padding: 10px 18px; border-radius: 50px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; border: none; transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-assistir:hover { background: var(--green-dark); }
+
+.badge-done {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--green-light); color: var(--green-dark);
+  padding: 6px 12px; border-radius: 50px;
+  font-size: 12px; font-weight: 700;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.85);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--dark2);
+  border-radius: 16px;
+  width: 100%; max-width: 860px;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.25s;
+}
+.modal-overlay.open .modal { transform: scale(1); }
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #374151;
+}
+.modal-title { color: white; font-size: 15px; font-weight: 700; }
+.modal-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #374151; color: #9ca3af;
+  border: none; cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: #4b5563; color: white; }
+
+.modal-video {
+  position: relative; padding-bottom: 56.25%;
+  height: 0; overflow: hidden;
+}
+.modal-video iframe {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%; border: none;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.modal-footer p { color: #9ca3af; font-size: 13px; }
+.btn-next {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green); color: white;
+  padding: 10px 20px; border-radius: 50px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; border: none; transition: background 0.2s;
+}
+.btn-next:hover { background: var(--green-dark); }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .aula-thumb { width: 72px; height: 44px; }
+  .aula-title { font-size: 14px; }
+  .btn-assistir span { display: none; }
+  .progress-card { flex-direction: column; align-items: flex-start; }
+  .aula-card-body { padding: 14px 16px; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">S</div>
+    Squads
+  </a>
+  <a href="index.html" class="btn btn-outline">← Site</a>
+</nav>
+
+<div class="page-header">
+  <h1>Aulas</h1>
+  <p>7 aulas para dominar os Squads e colocar seu time de IA para trabalhar.</p>
+</div>
+
+<div class="tab-nav">
+  <a href="aulas.html" class="active">🎬 Aulas</a>
+  <a href="download-instalacao.html">📦 Download & Instalação</a>
+  <a href="squads-referencia.html">🤖 Squads</a>
+</div>
+
+<div class="container">
+
+  <div class="progress-card">
+    <div class="progress-info">
+      <h3>Seu progresso</h3>
+      <p id="progress-text">0 de 7 aulas assistidas</p>
+    </div>
+    <div class="progress-track">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="progress-label" id="progress-pct">0% concluído</div>
+    </div>
+  </div>
+
+  <div class="aulas-list">
+
+    <div class="aula-card" id="aula-1">
+      <div class="aula-card-body">
+        <div class="aula-thumb">
+          <div class="aula-num-badge">01</div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="aula-info">
+          <div class="aula-squad">Introdução</div>
+          <div class="aula-title">O que são os Squads e por que funcionam</div>
+          <div class="aula-meta"><span>⏱ 12 min</span><span>📖 Fundamentos</span></div>
+        </div>
+        <div class="aula-actions">
+          <button class="btn-assistir" onclick="openModal(1,'O que são os Squads','YOUTUBE_ID_1')">
+            ▶ <span>Assistir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="aula-card" id="aula-2">
+      <div class="aula-card-body">
+        <div class="aula-thumb">
+          <div class="aula-num-badge">02</div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="aula-info">
+          <div class="aula-squad">Setup</div>
+          <div class="aula-title">Instalação completa — Windows e Mac</div>
+          <div class="aula-meta"><span>⏱ 18 min</span><span>💻 Técnico</span></div>
+        </div>
+        <div class="aula-actions">
+          <button class="btn-assistir" onclick="openModal(2,'Instalação completa','YOUTUBE_ID_2')">
+            ▶ <span>Assistir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="aula-card" id="aula-3">
+      <div class="aula-card-body">
+        <div class="aula-thumb">
+          <div class="aula-num-badge">03</div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="aula-info">
+          <div class="aula-squad">Squad Comercial</div>
+          <div class="aula-title">Squad Comercial na prática</div>
+          <div class="aula-meta"><span>⏱ 22 min</span><span>💼 Vendas</span></div>
+        </div>
+        <div class="aula-actions">
+          <button class="btn-assistir" onclick="openModal(3,'Squad Comercial na prática','YOUTUBE_ID_3')">
+            ▶ <span>Assistir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="aula-card" id="aula-4">
+      <div class="aula-card-body">
+        <div class="aula-thumb">
+          <div class="aula-num-badge">04</div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="aula-info">
+          <div class="aula-squad">Squad Gestão</div>
+          <div class="aula-title">Squad de Gestão na prática</div>
+          <div class="aula-meta"><span>⏱ 20 min</span><span>🎯 Gestão</span></div>
+        </div>
+        <div class="aula-actions">
+          <button class="btn-assistir" onclick="openModal(4,'Squad de Gestão na prática','YOUTUBE_ID_4')">
+            ▶ <span>Assistir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="aula-card" id="aula-5">
+      <div class="aula-card-body">
+        <div class="aula-thumb">
+          <div class="aula-num-badge">05</div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="aula-info">
+          <div class="aula-squad">Squad Marketing</div>
+          <div class="aula-title">Squad de Marketing na prática</div>
+          <div class="aula-meta"><span>⏱ 24 min</span><span>📣 Marketing</span></div>
+        </div>
+        <div class="aula-actions">
+          <button class="btn-assistir" onclick="openModal(5,'Squad de Marketing na prática','YOUTUBE_ID_5')">
+            ▶ <span>Assistir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="aula-card" id="aula-6">
+      <div class="aula-card-body">
+        <div class="aula-thumb">
+          <div class="aula-num-badge">06</div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="aula-info">
+          <div class="aula-squad">Operações · Financeiro · CS</div>
+          <div class="aula-title">Squads de Operações, Financeiro e CS</div>
+          <div class="aula-meta"><span>⏱ 26 min</span><span>⚙️ Operações</span></div>
+        </div>
+        <div class="aula-actions">
+          <button class="btn-assistir" onclick="openModal(6,'Squads de Operações, Financeiro e CS','YOUTUBE_ID_6')">
+            ▶ <span>Assistir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="aula-card" id="aula-7">
+      <div class="aula-card-body">
+        <div class="aula-thumb">
+          <div class="aula-num-badge">07</div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="aula-info">
+          <div class="aula-squad">Avançado</div>
+          <div class="aula-title">Como personalizar o empresa.yaml</div>
+          <div class="aula-meta"><span>⏱ 15 min</span><span>⚡ Personalização</span></div>
+        </div>
+        <div class="aula-actions">
+          <button class="btn-assistir" onclick="openModal(7,'Como personalizar o empresa.yaml','YOUTUBE_ID_7')">
+            ▶ <span>Assistir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Aula</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-video">
+      <iframe id="modal-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+    </div>
+    <div class="modal-footer">
+      <p id="modal-meta"></p>
+      <button class="btn-next" id="btn-next" onclick="nextAula()">Próxima aula →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const aulas = [
+  { id: 1, titulo: 'O que são os Squads e por que funcionam', yt: 'YOUTUBE_ID_1', dur: '12 min' },
+  { id: 2, titulo: 'Instalação completa — Windows e Mac', yt: 'YOUTUBE_ID_2', dur: '18 min' },
+  { id: 3, titulo: 'Squad Comercial na prática', yt: 'YOUTUBE_ID_3', dur: '22 min' },
+  { id: 4, titulo: 'Squad de Gestão na prática', yt: 'YOUTUBE_ID_4', dur: '20 min' },
+  { id: 5, titulo: 'Squad de Marketing na prática', yt: 'YOUTUBE_ID_5', dur: '24 min' },
+  { id: 6, titulo: 'Squads de Operações, Financeiro e CS', yt: 'YOUTUBE_ID_6', dur: '26 min' },
+  { id: 7, titulo: 'Como personalizar o empresa.yaml', yt: 'YOUTUBE_ID_7', dur: '15 min' }
+];
+
+let watched = JSON.parse(localStorage.getItem('squads_watched') || '[]');
+let currentAula = 1;
+
+function updateProgress() {
+  const pct = Math.round(watched.length / aulas.length * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = watched.length + ' de ' + aulas.length + ' aulas assistidas';
+  document.getElementById('progress-pct').textContent = pct + '% concluído';
+  watched.forEach(id => {
+    const card = document.getElementById('aula-' + id);
+    if (card) {
+      card.classList.add('done');
+      const btn = card.querySelector('.btn-assistir');
+      if (btn) btn.style.background = 'var(--green-dark)';
+    }
+  });
+}
+
+function openModal(id, titulo, ytId) {
+  currentAula = id;
+  document.getElementById('modal-title').textContent = 'Aula ' + id + ' — ' + titulo;
+  document.getElementById('modal-iframe').src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1';
+  document.getElementById('modal-meta').textContent = aulas[id-1].dur + ' · Aula ' + id + ' de ' + aulas.length;
+  document.getElementById('btn-next').style.display = id < aulas.length ? 'inline-flex' : 'none';
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (!watched.includes(id)) {
+    watched.push(id);
+    localStorage.setItem('squads_watched', JSON.stringify(watched));
+    updateProgress();
+  }
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('modal-iframe').src = '';
+  document.body.style.overflow = '';
+}
+
+function closeOnOverlay(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+function nextAula() {
+  if (currentAula < aulas.length) {
+    const next = aulas[currentAula];
+    openModal(next.id, next.titulo, next.yt);
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+updateProgress();
+</script>
+</body>
+</html>

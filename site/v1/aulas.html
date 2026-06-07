@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área do Cliente — Squads</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #21C45D;
+    --green-dark: #16a34a;
+    --green-light: #dcfce7;
+    --dark: #111827;
+    --dark2: #1f2937;
+    --gray: #6b7280;
+    --gray-light: #f9fafb;
+    --border: #e5e7eb;
+    --white: #ffffff;
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dark); background: var(--gray-light); }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--dark); text-decoration: none; }
+  .logo-icon { width: 36px; height: 36px; background: var(--green); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 16px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; text-decoration: none; border: none; }
+  .btn-primary { background: var(--green); color: white; }
+  .btn-primary:hover { background: var(--green-dark); }
+  .btn-outline { background: transparent; color: var(--dark); border: 1.5px solid var(--border); }
+
+  .page-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 5%;
+  }
+  .page-header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  .page-header p { color: var(--gray); font-size: 16px; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 5%; }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: sticky;
+    top: 80px;
+  }
+
+  .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+  }
+
+  .sidebar-item:last-child { border-bottom: none; }
+  .sidebar-item:hover { background: var(--gray-light); color: var(--dark); }
+  .sidebar-item.active { background: var(--green-light); color: var(--green-dark); font-weight: 600; }
+
+  .sidebar-icon { font-size: 18px; }
+
+  /* MAIN CONTENT */
+  .main-content { display: flex; flex-direction: column; gap: 28px; }
+
+  /* DOWNLOAD CARD */
+  .download-card {
+    background: var(--dark);
+    border-radius: var(--radius);
+    padding: 32px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .download-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .download-card p { color: #9ca3af; font-size: 14px; max-width: 380px; }
+
+  .download-files {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .file-badge {
+    background: #374151;
+    color: #d1d5db;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+
+  .btn-download {
+    background: var(--green);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .btn-download:hover { background: var(--green-dark); }
+
+  /* AULAS */
+  .section-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .section-card-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .section-card-header h2 { font-size: 20px; font-weight: 700; }
+  .section-card-header p { font-size: 14px; color: var(--gray); margin-top: 4px; }
+
+  .progress-bar {
+    width: 120px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 99px;
+  }
+
+  .aula-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .aula-item:last-child { border-bottom: none; }
+  .aula-item:hover { background: var(--gray-light); }
+
+  .aula-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gray-light);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray);
+    flex-shrink: 0;
+  }
+
+  .aula-num.done {
+    background: var(--green-light);
+    border-color: var(--green);
+    color: var(--green-dark);
+  }
+
+  .aula-info { flex: 1; }
+  .aula-title { font-size: 15px; font-weight: 600; color: var(--dark); }
+  .aula-meta { font-size: 13px; color: var(--gray); margin-top: 3px; }
+
+  .aula-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .aula-btn:hover { background: var(--green-dark); }
+
+  .aula-btn.locked {
+    background: var(--gray-light);
+    color: var(--gray);
+    cursor: default;
+  }
+
+  /* SQUADS TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+
+  .tab {
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    color: var(--gray);
+    border: 1px solid transparent;
+  }
+
+  .tab:hover { color: var(--dark); background: var(--gray-light); }
+  .tab.active { background: var(--green); color: white; }
+
+  /* INSTALL STEPS */
+  .install-steps {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .install-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .step-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .install-step h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .install-step p { font-size: 13px; color: var(--gray); }
+
+  .code-block {
+    background: var(--dark);
+    color: var(--green);
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .download-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">S</div>
+    Squads
+  </a>
+  <a href="index.html" class="btn btn-outline">← Voltar ao site</a>
+</nav>
+
+<div class="page-header">
+  <h1>Área do Cliente</h1>
+  <p>Bem-vindo ao Squads. Siga as aulas, instale os times e comece a usar.</p>
+</div>
+
+<div class="container">
+  <div class="content-grid">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-header">Menu</div>
+      <a href="#download" class="sidebar-item active">
+        <span class="sidebar-icon">📦</span> Download
+      </a>
+      <a href="#instalacao" class="sidebar-item">
+        <span class="sidebar-icon">⚙️</span> Instalação
+      </a>
+      <a href="#aulas" class="sidebar-item">
+        <span class="sidebar-icon">🎬</span> Aulas
+      </a>
+      <a href="#squads" class="sidebar-item">
+        <span class="sidebar-icon">🤖</span> Os Squads
+      </a>
+      <a href="https://github.com/lucasvalerio10/squads" target="_blank" class="sidebar-item">
+        <span class="sidebar-icon">💻</span> GitHub
+      </a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+      <!-- DOWNLOAD -->
+      <div id="download" class="download-card">
+        <div>
+          <h2>Pacote Squads v1.0.0</h2>
+          <p>Todos os 6 squads, 18 agentes, CLAUDE.md, empresa.yaml e instalador prontos para uso.</p>
+          <div class="download-files">
+            <span class="file-badge">18 agentes</span>
+            <span class="file-badge">6 squads</span>
+            <span class="file-badge">CLAUDE.md</span>
+            <span class="file-badge">empresa.yaml</span>
+            <span class="file-badge">install.sh</span>
+          </div>
+        </div>
+        <a href="https://github.com/lucasvalerio10/squads/archive/refs/heads/main.zip" class="btn-download">
+          ↓ Baixar agora
+        </a>
+      </div>
+
+      <!-- INSTALAÇÃO -->
+      <div id="instalacao" class="section-card">
+        <div class="section-card-header">
+          <div>
+            <h2>Instalação</h2>
+            <p>Siga os passos abaixo para colocar seu time no ar</p>
+          </div>
+        </div>
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="step-dot">1</div>
+            <div>
+              <h4>Instalar o Git</h4>
+              <p><strong>Windows:</strong> Baixe em git-scm.com e instale com opções padrão.<br><strong>Mac:</strong> já vem instalado ou execute no terminal:</p>
+              <div class="code-block">xcode-select --install</div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot">2</div>
+            <div>
+              <h4>Instalar o Node.js</h4>
+              <p>Baixe em nodejs.org → versão LTS → instale normalmente.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot">3</div>
+            <div>
+              <h4>Instalar o Claude Code</h4>
+              <div class="code-block">npm install -g @anthropic-ai/claude-code</div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot">4</div>
+            <div>
+              <h4>Instalar os Squads</h4>
+              <p><strong>Windows:</strong> Abra o Git Bash.<br><strong>Mac:</strong> Abra o Terminal. Execute:</p>
+              <div class="code-block">curl -fsSL https://raw.githubusercontent.com/lucasvalerio10/squads/main/squads/install.sh | bash</div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot">5</div>
+            <div>
+              <h4>Abrir o Claude Code</h4>
+              <div class="code-block">cd ~/Desktop && claude</div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot">6</div>
+            <div>
+              <h4>Ver os squads disponíveis</h4>
+              <div class="code-block">/squads</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AULAS -->
+      <div id="aulas" class="section-card">
+        <div class="section-card-header">
+          <div>
+            <h2>Aulas</h2>
+            <p>7 aulas para dominar os Squads</p>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--gray);margin-bottom:6px;text-align:right;">0 de 7</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="aula-item">
+          <div class="aula-num done">✓</div>
+          <div class="aula-info">
+            <div class="aula-title">Aula 1 — O que são os Squads e por que funcionam</div>
+            <div class="aula-meta">Introdução · 12 min</div>
+          </div>
+          <a href="#" class="aula-btn">▶ Assistir</a>
+        </div>
+
+        <div class="aula-item">
+          <div class="aula-num">2</div>
+          <div class="aula-info">
+            <div class="aula-title">Aula 2 — Instalação completa (Windows e Mac)</div>
+            <div class="aula-meta">Setup · 18 min</div>
+          </div>
+          <a href="#" class="aula-btn">▶ Assistir</a>
+        </div>
+
+        <div class="aula-item">
+          <div class="aula-num">3</div>
+          <div class="aula-info">
+            <div class="aula-title">Aula 3 — Squad Comercial na prática</div>
+            <div class="aula-meta">Prospecção, Proposta, Follow-up · 22 min</div>
+          </div>
+          <a href="#" class="aula-btn">▶ Assistir</a>
+        </div>
+
+        <div class="aula-item">
+          <div class="aula-num">4</div>
+          <div class="aula-info">
+            <div class="aula-title">Aula 4 — Squad de Gestão na prática</div>
+            <div class="aula-meta">Prioridades, Reunião, Relatório · 20 min</div>
+          </div>
+          <a href="#" class="aula-btn">▶ Assistir</a>
+        </div>
+
+        <div class="aula-item">
+          <div class="aula-num">5</div>
+          <div class="aula-info">
+            <div class="aula-title">Aula 5 — Squad de Marketing na prática</div>
+            <div class="aula-meta">Conteúdo, Anúncio, Email · 24 min</div>
+          </div>
+          <a href="#" class="aula-btn">▶ Assistir</a>
+        </div>
+
+        <div class="aula-item">
+          <div class="aula-num">6</div>
+          <div class="aula-info">
+            <div class="aula-title">Aula 6 — Squads de Operações, Financeiro e CS</div>
+            <div class="aula-meta">Visão geral dos outros times · 26 min</div>
+          </div>
+          <a href="#" class="aula-btn">▶ Assistir</a>
+        </div>
+
+        <div class="aula-item">
+          <div class="aula-num">7</div>
+          <div class="aula-info">
+            <div class="aula-title">Aula 7 — Como personalizar o empresa.yaml</div>
+            <div class="aula-meta">Personalização avançada · 15 min</div>
+          </div>
+          <a href="#" class="aula-btn">▶ Assistir</a>
+        </div>
+
+      </div>
+
+      <!-- SQUADS REFERÊNCIA -->
+      <div id="squads" class="section-card">
+        <div class="section-card-header">
+          <div>
+            <h2>Referência dos Squads</h2>
+            <p>Todos os comandos disponíveis</p>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tab active" onclick="showTab('comercial',this)">Comercial</div>
+          <div class="tab" onclick="showTab('gestao',this)">Gestão</div>
+          <div class="tab" onclick="showTab('marketing',this)">Marketing</div>
+          <div class="tab" onclick="showTab('operacoes',this)">Operações</div>
+          <div class="tab" onclick="showTab('financeiro',this)">Financeiro</div>
+          <div class="tab" onclick="showTab('cs',this)">CS</div>
+        </div>
+
+        <div id="tab-comercial" class="install-steps">
+          <div class="install-step">
+            <div class="step-dot" style="background:#059669">💼</div>
+            <div>
+              <h4>/squad-comercial:prospeccao</h4>
+              <p>Encontra e aborda os leads certos com mensagens personalizadas. BANT + Aaron Ross.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#059669">💼</div>
+            <div>
+              <h4>/squad-comercial:proposta</h4>
+              <p>Cria propostas que fecham. MEDDIC + Challenger Sale + SPIN Selling.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#059669">💼</div>
+            <div>
+              <h4>/squad-comercial:followup</h4>
+              <p>Reengaja leads silenciosos com valor, nunca com cobrança.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#059669">💼</div>
+            <div>
+              <h4>/squad-comercial:atendimento</h4>
+              <p>Trata objeções, reclamações e risco de churn. LAER + Harvard Negotiation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-gestao" class="install-steps" style="display:none">
+          <div class="install-step">
+            <div class="step-dot" style="background:#7c3aed">🎯</div>
+            <div><h4>/squad-gestao:prioridade</h4><p>As 3 prioridades que realmente movem o negócio essa semana. OKR + Eisenhower.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#7c3aed">🎯</div>
+            <div><h4>/squad-gestao:reuniao</h4><p>Transforma notas bagunçadas em ata com donos e prazos. Pronto para WhatsApp.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#7c3aed">🎯</div>
+            <div><h4>/squad-gestao:estrategia</h4><p>Advisor que fala a verdade. First Principles + Inversion + Strategic Cascade.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#7c3aed">🎯</div>
+            <div><h4>/squad-gestao:relatorio</h4><p>Relatório semanal do negócio pronto para compartilhar com sócios.</p></div>
+          </div>
+        </div>
+
+        <div id="tab-marketing" class="install-steps" style="display:none">
+          <div class="install-step">
+            <div class="step-dot" style="background:#d97706">📣</div>
+            <div><h4>/squad-marketing:conteudo</h4><p>Transforma ideias brutas em conteúdo que para o scroll. Schwartz + Consumer Psychology.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#d97706">📣</div>
+            <div><h4>/squad-marketing:anuncio</h4><p>3 versões A/B/C para teste. Breakthrough Advertising + CopyHackers.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#d97706">📣</div>
+            <div><h4>/squad-marketing:email</h4><p>Sequências que nutrem, convertem e retêm. Soap Opera Sequence.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#d97706">📣</div>
+            <div><h4>/squad-marketing:pesquisa</h4><p>Inteligência competitiva e análise de ICP. Jobs to Be Done.</p></div>
+          </div>
+        </div>
+
+        <div id="tab-operacoes" class="install-steps" style="display:none">
+          <div class="install-step">
+            <div class="step-dot" style="background:#dc2626">⚙️</div>
+            <div><h4>/squad-operacoes:operacional</h4><p>Identifica gargalos e mapeia processos. Theory of Constraints + EOS/Traction.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#dc2626">⚙️</div>
+            <div><h4>/squad-operacoes:contratacao</h4><p>Processo seletivo para contratar certo na primeira vez. Topgrading + STAR.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#dc2626">⚙️</div>
+            <div><h4>/squad-operacoes:delegacao</h4><p>Libera o dono das tarefas que o time pode fazer. Delegation Poker.</p></div>
+          </div>
+        </div>
+
+        <div id="tab-financeiro" class="install-steps" style="display:none">
+          <div class="install-step">
+            <div class="step-dot" style="background:#7c3aed">📊</div>
+            <div><h4>/squad-financeiro:analise</h4><p>Transforma dados brutos em decisões claras. CFO Lens + 80/20 + Anomaly Detection.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#7c3aed">📊</div>
+            <div><h4>/squad-financeiro:preco</h4><p>Define o preço certo baseado em valor, não em custo. Value-Based Pricing.</p></div>
+          </div>
+        </div>
+
+        <div id="tab-cs" class="install-steps" style="display:none">
+          <div class="install-step">
+            <div class="step-dot" style="background:#0891b2">🤝</div>
+            <div><h4>/squad-cs:onboarding</h4><p>Garante que o cliente chegue ao First Value Moment rápido. Lincoln Murphy.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#0891b2">🤝</div>
+            <div><h4>/squad-cs:atendimento</h4><p>Trata objeções e situações difíceis. LAER + Harvard Negotiation.</p></div>
+          </div>
+          <div class="install-step">
+            <div class="step-dot" style="background:#0891b2">🤝</div>
+            <div><h4>/squad-cs:churn</h4><p>Identifica e intervém antes que o cliente cancele. NRR + Health Scoring.</p></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(id, el) {
+  document.querySelectorAll('[id^="tab-"]').forEach(t => t.style.display = 'none');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).style.display = 'flex';
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
