@@ -163,16 +163,3 @@ Tone defined in `posicionamento.tom_de_voz` from empresa.yaml.
 ├── squad-financeiro/agents/        ← 2 agent files
 └── squad-cs/agents/                ← 3 agent files
 ```
-
-## CRITICAL — COMMAND EXECUTION RULE
-
-Commands like `/squad-comercial:prospeccao` are NOT bash commands.
-NEVER attempt to run them in the terminal.
-NEVER use `execute_bash` or any shell execution for these commands.
-
-When you see `/squad-x:agente`:
-1. Treat it as a natural language instruction
-2. Read the corresponding .md file from `~/.squads/squads/`
-3. Load the agent and respond as it
-
-This is a reading + reasoning task, not a shell task.
