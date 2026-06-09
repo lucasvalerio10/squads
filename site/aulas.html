@@ -7,207 +7,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
- 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--dark); background: var(--gray-light); }
+body { background: var(--bg); color: var(--text); }
+nav { background: var(--nav-bg); }
+.nav-logo { color: var(--text); }
+.btn-outline { color: var(--text); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--text); }
+.page-header { background: var(--bg-card); }
+.page-header h1 { color: var(--text); }
+.page-header p { color: var(--text-muted); }
+.tab-nav { background: var(--bg-card); }
+.tab-nav a { color: var(--text-muted); }
+.tab-nav a:hover { color: var(--text); }
+.tab-nav a.active { color: var(--green); border-bottom-color: var(--green); }
+.container { max-width: 860px; margin: 0 auto; padding: 36px 5%; display: flex; flex-direction: column; gap: 16px; }
 
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 5%; height: 64px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--dark); text-decoration: none; }
-.logo-icon { width: 36px; height: 36px; background: var(--green); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 16px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; text-decoration: none; border: none; }
-.btn-outline { background: transparent; color: var(--dark); border: 1.5px solid var(--border); }
-.btn-outline:hover { border-color: var(--dark); }
+.progress-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.progress-info h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.progress-info p { font-size: 14px; color: var(--text-muted); }
+.progress-track { flex: 1; min-width: 180px; }
+.progress-bar { background: var(--border); border-radius: 50px; height: 6px; overflow: hidden; margin-bottom: 6px; }
+.progress-fill { height: 100%; background: var(--green); border-radius: 50px; transition: width 0.4s; }
+.progress-label { font-size: 12px; color: var(--text-muted); }
 
-.page-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 32px 5%; }
-.page-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
-.page-header p { color: var(--gray); font-size: 15px; }
-
-/* TAB NAV */
-.tab-nav {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 0 5%;
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.tab-nav a {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 16px 20px;
-  font-size: 14px; font-weight: 600;
-  color: var(--gray); text-decoration: none;
-  border-bottom: 3px solid transparent;
-  white-space: nowrap;
-  transition: all 0.15s;
-}
-.tab-nav a:hover { color: var(--dark); }
-.tab-nav a.active { color: var(--green-dark); border-bottom-color: var(--green); }
-
-.container { max-width: 860px; margin: 0 auto; padding: 36px 5%; }
-
-/* PROGRESS */
-.progress-card {
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 24px 28px; margin-bottom: 24px;
-  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
-}
-.progress-info { flex: 1; min-width: 160px; }
-.progress-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.progress-info p { font-size: 13px; color: var(--gray); }
-.progress-track { flex: 2; min-width: 200px; }
-.progress-bar { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 6px; }
-.progress-fill { height: 100%; background: var(--green); border-radius: 99px; transition: width 0.4s; }
-.progress-label { font-size: 12px; color: var(--gray); }
-
-/* AULA CARD */
 .aulas-list { display: flex; flex-direction: column; gap: 12px; }
-
-.aula-card {
-  background: var(--white); border: 1.5px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-  transition: all 0.2s;
-}
-.aula-card:hover { border-color: var(--green); box-shadow: 0 4px 16px rgba(33,196,93,0.1); }
+.aula-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: all 0.2s; }
+.aula-card:hover { border-color: var(--green); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 .aula-card.done { border-color: var(--green); }
-
-.aula-card-body {
-  display: flex; align-items: center; gap: 16px;
-  padding: 20px 24px;
-}
-
-.aula-thumb {
-  width: 100px; height: 60px;
-  border-radius: 8px;
-  background: var(--dark);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.aula-thumb-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.play-icon {
-  position: absolute;
-  width: 32px; height: 32px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 12px;
-  backdrop-filter: blur(4px);
-}
-
-.aula-num-badge {
-  position: absolute; top: 6px; left: 6px;
-  background: rgba(0,0,0,0.6);
-  color: white; font-size: 11px; font-weight: 700;
-  padding: 2px 6px; border-radius: 4px;
-}
-
-.aula-info { flex: 1; min-width: 0; }
-.aula-squad { font-size: 11px; font-weight: 700; color: var(--green-dark); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
-.aula-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.aula-meta { font-size: 12px; color: var(--gray); display: flex; gap: 12px; }
-
-.aula-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-
-.btn-assistir {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--green); color: white;
-  padding: 10px 18px; border-radius: 50px;
-  font-size: 13px; font-weight: 700;
-  cursor: pointer; border: none; transition: background 0.2s;
-  white-space: nowrap;
-}
+.aula-card-body { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+.aula-thumb { width: 56px; height: 56px; background: #111827; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.aula-num-badge { position: absolute; top: 4px; left: 4px; font-size: 9px; font-weight: 800; color: #9ca3af; }
+.play-icon { font-size: 18px; color: var(--green); }
+.aula-info { flex: 1; }
+.aula-squad { font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.aula-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.aula-meta { display: flex; gap: 12px; font-size: 12px; color: var(--text-muted); }
+.aula-actions { flex-shrink: 0; }
+.btn-assistir { display: inline-flex; align-items: center; gap: 6px; background: var(--green); color: white; border: none; border-radius: 50px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; font-family: inherit; }
 .btn-assistir:hover { background: var(--green-dark); }
 
-.badge-done {
-  display: inline-flex; align-items: center; gap: 4px;
-  background: var(--green-light); color: var(--green-dark);
-  padding: 6px 12px; border-radius: 50px;
-  font-size: 12px; font-weight: 700;
-}
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal { background: #111827; border-radius: var(--radius); width: 100%; max-width: 860px; overflow: hidden; position: relative; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #374151; }
+.modal-title { font-size: 15px; font-weight: 700; color: white; }
+.modal-close { background: transparent; border: none; color: #9ca3af; font-size: 20px; cursor: pointer; padding: 4px; transition: color 0.15s; }
+.modal-close:hover { color: white; }
+.modal-video { aspect-ratio: 16/9; width: 100%; background: #000; }
+.modal-video iframe { width: 100%; height: 100%; border: none; }
+.modal-footer { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+.modal-footer p { font-size: 13px; color: #9ca3af; }
+.btn-next { display: inline-flex; align-items: center; gap: 6px; background: var(--green); color: white; border: none; border-radius: 50px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
-/* MODAL */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 1000;
-  background: rgba(0,0,0,0.85);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.25s;
-}
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-
-.modal {
-  background: var(--dark2);
-  border-radius: 16px;
-  width: 100%; max-width: 860px;
-  overflow: hidden;
-  transform: scale(0.95);
-  transition: transform 0.25s;
-}
-.modal-overlay.open .modal { transform: scale(1); }
-
-.modal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #374151;
-}
-.modal-title { color: white; font-size: 15px; font-weight: 700; }
-.modal-close {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: #374151; color: #9ca3af;
-  border: none; cursor: pointer; font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.15s;
-}
-.modal-close:hover { background: #4b5563; color: white; }
-
-.modal-video {
-  position: relative; padding-bottom: 56.25%;
-  height: 0; overflow: hidden;
-}
-.modal-video iframe {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%; border: none;
-}
-
-.modal-footer {
-  padding: 16px 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px;
-}
-.modal-footer p { color: #9ca3af; font-size: 13px; }
-.btn-next {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--green); color: white;
-  padding: 10px 20px; border-radius: 50px;
-  font-size: 13px; font-weight: 700;
-  cursor: pointer; border: none; transition: background 0.2s;
-}
-.btn-next:hover { background: var(--green-dark); }
-
-/* RESPONSIVE */
 @media (max-width: 640px) {
-  .aula-thumb { width: 72px; height: 44px; }
-  .aula-title { font-size: 14px; }
-  .btn-assistir span { display: none; }
-  .progress-card { flex-direction: column; align-items: flex-start; }
-  .aula-card-body { padding: 14px 16px; gap: 12px; }
+  .aula-card-body { flex-wrap: wrap; }
+  .aula-actions { width: 100%; }
+  .btn-assistir { width: 100%; justify-content: center; }
 }
 </style>
+<script>(function(){var t=localStorage.getItem('squads_theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
 
@@ -217,6 +74,7 @@ nav {
     Squads
   </a>
   <a href="index.html" class="btn btn-outline">← Site</a>
+  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Alternar tema">🌙</button>
 </nav>
 
 <div class="page-header">
@@ -461,6 +319,24 @@ function nextAula() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 updateProgress();
+</script>
+
+<script>
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('squads_theme', next);
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+}
+// Set correct icon on load
+(function(){
+  var t = document.documentElement.getAttribute('data-theme');
+  window.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('theme-btn');
+    if(btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
+  });
+})();
 </script>
 </body>
 </html>
