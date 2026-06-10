@@ -6,12 +6,10 @@ const SUPABASE_SERVICE_KEY = Deno.env.get("SB_SERVICE_KEY")!
 const KIWIFY_TOKEN = Deno.env.get("KIWIFY_TOKEN")!
 
 serve(async (req) => {
-  const kiwifyToken = req.headers.get("x-kiwify-token") || ""
-const urlToken = new URL(req.url).searchParams.get("token") || ""
-
-if (kiwifyToken !== KIWIFY_TOKEN && urlToken !== KIWIFY_TOKEN) {
-  return new Response("Unauthorized", { status: 401 })
-}
+  // Aceitar qualquer POST por enquanto
+  if (req.method !== "POST") {
+    return new Response("Method not allowed", { status: 405 })
+  }
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
