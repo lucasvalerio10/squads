@@ -162,13 +162,13 @@ nav {
   transform: translateY(-1px);
 }
 
-.btn-outline {
+ .btn-outline {
   background: transparent;
   color: var(--text);
-  border: 1.5px solid var(--border);
+  border: 1.5px solid #9ca3af;
 }
 
-.btn-outline:hover { border-color: var(--text); }
+.btn-outline:hover { border-color: var(--green); color: var(--green); }
 
 /* ============================================
    PAGE HEADER
