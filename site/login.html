@@ -113,10 +113,12 @@ async function enviarLink() {
   msg.className = 'msg'
 
   // Verifica se email está na tabela membros com status ativo
-  const { data: status } = await sb
+  const { data: resultado, error: rpcError } = await sb
     .rpc('verificar_membro', { p_email: email })
 
-  if (!status || status !== 'ativo') {
+  console.log('resultado:', resultado, 'erro:', rpcError)
+
+  if (!resultado || resultado.status !== 'ativo') {
     msg.className = 'msg error'
     msg.textContent = 'Email não encontrado. Verifique se usou o mesmo email da compra.'
     btn.disabled = false
