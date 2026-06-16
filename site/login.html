@@ -112,6 +112,21 @@ async function enviarLink() {
   btn.textContent = 'Enviando...'
   msg.className = 'msg'
 
+  // Verifica se email está na tabela membros com status ativo
+  const { data: membro } = await sb
+    .from('membros')
+    .select('status')
+    .eq('email', email)
+    .single()
+
+  if (!membro || membro.status !== 'ativo') {
+    msg.className = 'msg error'
+    msg.textContent = 'Email não encontrado. Verifique se usou o mesmo email da compra.'
+    btn.disabled = false
+    btn.textContent = 'Enviar link de acesso'
+    return
+  }
+
   const { error } = await sb.auth.signInWithOtp({
     email,
     options: {
@@ -121,7 +136,7 @@ async function enviarLink() {
 
   if (error) {
     msg.className = 'msg error'
-    msg.textContent = 'Email não encontrado. Verifique se usou o mesmo email da compra.'
+    msg.textContent = 'Algo deu errado. Tenta de novo.'
     btn.disabled = false
     btn.textContent = 'Enviar link de acesso'
     return
