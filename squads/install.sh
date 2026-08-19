@@ -1,56 +1,40 @@
 #!/bin/bash
 
 # ============================================================
-#  SQUADS — Instalador de Times de IA para Empresários
+#  SQUADS — Instalador v2.0
+#  Times de IA para Empresários
 #  github.com/lucasvalerio10/squads
 # ============================================================
 
 set -e
 
-# Cores
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 BOLD='\033[1m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 SQUADS_DIR="$HOME/.squads"
+SKILLS_DIR="$HOME/.claude/skills"
 REPO_URL="https://github.com/lucasvalerio10/squads"
-EMPRESA_FILE="$SQUADS_DIR/empresa.yaml"
-
-# ============================================================
-# FUNÇÕES UTILITÁRIAS
-# ============================================================
 
 print_header() {
+  clear
   echo ""
   echo -e "${BOLD}=================================================${NC}"
-  echo -e "${BOLD}  SQUADS — Times de IA para sua empresa${NC}"
+  echo -e "${BOLD}  SQUADS — Times de IA para sua empresa  ${NC}"
   echo -e "${BOLD}=================================================${NC}"
   echo ""
 }
 
-print_step() {
-  echo -e "${BLUE}▶ $1${NC}"
-}
-
-print_ok() {
-  echo -e "${GREEN}✓ $1${NC}"
-}
-
-print_warn() {
-  echo -e "${YELLOW}⚠ $1${NC}"
-}
-
-print_error() {
-  echo -e "${RED}✗ $1${NC}"
-}
+print_step() { echo -e "${BLUE}▶ $1${NC}"; }
+print_ok()   { echo -e "${GREEN}✓ $1${NC}"; }
+print_warn() { echo -e "${YELLOW}⚠ $1${NC}"; }
+print_error(){ echo -e "${RED}✗ $1${NC}"; }
 
 ask() {
-  local prompt="$1"
-  local default="$2"
-  local answer
+  local prompt="$1" default="$2" answer
   if [ -n "$default" ]; then
     read -p "$(echo -e "${BOLD}${prompt}${NC} [${default}]: ")" answer
     echo "${answer:-$default}"
@@ -61,33 +45,100 @@ ask() {
 }
 
 # ============================================================
-# PRÉ-REQUISITOS
+# VERIFICAÇÃO E INSTALAÇÃO AUTOMÁTICA DE PRÉ-REQUISITOS
 # ============================================================
 
-check_requirements() {
-  print_step "Verificando pré-requisitos..."
+detect_os() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then echo "mac"
+  elif [[ "$OSTYPE" == "msys"* ]] || [[ "$OSTYPE" == "cygwin"* ]]; then echo "windows"
+  else echo "linux"
+  fi
+}
 
-  # Git
-  if ! command -v git &> /dev/null; then
-    print_error "Git não encontrado. Instale em https://git-scm.com"
+install_node() {
+  local os=$(detect_os)
+  print_warn "Node.js não encontrado. Instalando automaticamente..."
+
+  if [ "$os" = "mac" ]; then
+    if command -v brew &>/dev/null; then
+      brew install node
+    else
+      print_warn "Homebrew não encontrado. Instalando Homebrew primeiro..."
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      brew install node
+    fi
+  elif [ "$os" = "linux" ]; then
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+  else
+    print_error "No Windows, instale o Node.js manualmente em: https://nodejs.org"
+    print_error "Depois reabra o Git Bash e rode o instalador novamente."
     exit 1
   fi
-  print_ok "Git instalado"
+}
 
-  # Claude Code (claude CLI)
-  if ! command -v claude &> /dev/null; then
-    print_warn "Claude Code CLI não encontrado."
-    echo ""
-    echo "  Para instalar, execute:"
-    echo -e "  ${BOLD}npm install -g @anthropic-ai/claude-code${NC}"
-    echo ""
-    read -p "Continuar mesmo assim? (s/n): " cont
-    if [ "$cont" != "s" ] && [ "$cont" != "S" ]; then
+install_git() {
+  local os=$(detect_os)
+  print_warn "Git não encontrado. Instalando automaticamente..."
+
+  if [ "$os" = "mac" ]; then
+    xcode-select --install 2>/dev/null || true
+  elif [ "$os" = "linux" ]; then
+    sudo apt-get install -y git
+  else
+    print_error "No Windows, instale o Git em: https://git-scm.com"
+    print_error "Depois reabra o Git Bash e rode o instalador novamente."
+    exit 1
+  fi
+}
+
+install_claude_code() {
+  print_warn "Claude Code não encontrado. Instalando..."
+  npm install -g @anthropic-ai/claude-code
+  print_ok "Claude Code instalado"
+}
+
+check_and_install_requirements() {
+  print_step "Verificando e instalando pré-requisitos..."
+  echo ""
+
+  # Node.js
+  if command -v node &>/dev/null; then
+    local node_version=$(node --version)
+    print_ok "Node.js $node_version"
+  else
+    install_node
+    if command -v node &>/dev/null; then
+      print_ok "Node.js instalado com sucesso"
+    else
+      print_error "Falha ao instalar Node.js. Instale manualmente em https://nodejs.org"
       exit 1
     fi
-  else
-    print_ok "Claude Code instalado"
   fi
+
+  # Git
+  if command -v git &>/dev/null; then
+    print_ok "Git $(git --version | awk '{print $3}')"
+  else
+    install_git
+    if command -v git &>/dev/null; then
+      print_ok "Git instalado com sucesso"
+    else
+      print_error "Falha ao instalar Git. Instale manualmente em https://git-scm.com"
+      exit 1
+    fi
+  fi
+
+  # Claude Code
+  if command -v claude &>/dev/null; then
+    print_ok "Claude Code instalado"
+  else
+    install_claude_code
+  fi
+
+  echo ""
+  print_ok "Todos os pré-requisitos prontos"
+  echo ""
 }
 
 # ============================================================
@@ -95,20 +146,42 @@ check_requirements() {
 # ============================================================
 
 download_squads() {
-  print_step "Baixando squads do GitHub..."
+  print_step "Baixando Squads do GitHub..."
 
   if [ -d "$SQUADS_DIR" ]; then
-    print_warn "Instalação anterior encontrada em $SQUADS_DIR"
-    read -p "Atualizar para a versão mais recente? (s/n): " update
-    if [ "$update" = "s" ] || [ "$update" = "S" ]; then
-      cd "$SQUADS_DIR"
-      git pull origin main
-      print_ok "Squads atualizados"
-    fi
+    print_warn "Instalação anterior encontrada. Atualizando..."
+    cd "$SQUADS_DIR" && git pull origin main --quiet
+    print_ok "Squads atualizados"
   else
-    git clone "$REPO_URL.git" "$SQUADS_DIR"
+    git clone "$REPO_URL.git" "$SQUADS_DIR" --quiet
     print_ok "Squads baixados para $SQUADS_DIR"
   fi
+}
+
+# ============================================================
+# INSTALAÇÃO DAS SKILLS (padrão SKILL.md oficial)
+# ============================================================
+
+install_skills() {
+  print_step "Instalando skills no Claude Code..."
+
+  mkdir -p "$SKILLS_DIR"
+
+  # Copia cada squad como uma skill
+  local squads=("squad-comercial" "squad-gestao" "squad-marketing" "squad-operacoes" "squad-financeiro" "squad-cs")
+
+  for squad in "${squads[@]}"; do
+    local src="$SQUADS_DIR/squads/$squad"
+    local dst="$SKILLS_DIR/$squad"
+
+    if [ -d "$src" ]; then
+      cp -r "$src" "$dst"
+      print_ok "Skill instalada: $squad"
+    fi
+  done
+
+  # Copia empresa.yaml para local acessível
+  cp "$SQUADS_DIR/squads/empresa.yaml" "$HOME/.claude/empresa.yaml" 2>/dev/null || true
 }
 
 # ============================================================
@@ -118,68 +191,60 @@ download_squads() {
 configure_empresa() {
   echo ""
   echo -e "${BOLD}=================================================${NC}"
-  echo -e "${BOLD}  Configuração da sua empresa${NC}"
+  echo -e "${BOLD}  Configure sua empresa — faz uma vez só  ${NC}"
   echo -e "${BOLD}=================================================${NC}"
   echo ""
   echo "  Essas informações ficam salvas localmente."
-  echo "  Todos os agentes vão usá-las automaticamente."
+  echo "  Todos os 18 agentes vão usá-las automaticamente."
   echo ""
 
-  # Verifica se já existe configuração
+  local EMPRESA_FILE="$SQUADS_DIR/squads/empresa.yaml"
+
   if [ -f "$EMPRESA_FILE" ]; then
     print_warn "Configuração anterior encontrada."
-    read -p "Reconfigurar? (s/n): " reconf
+    read -p "$(echo -e "${BOLD}Reconfigurar? (s/n)${NC}: ")" reconf
     if [ "$reconf" != "s" ] && [ "$reconf" != "S" ]; then
       print_ok "Mantendo configuração existente"
       return
     fi
   fi
 
-  # Coleta informações básicas
-  NOME=$(ask "Nome da empresa")
-  SEGMENTO=$(ask "Segmento/setor" "Ex: SaaS B2B / Agência / Clínica / E-commerce")
-  TAMANHO=$(ask "Tamanho da empresa" "1-10")
-  PRODUTO_NOME=$(ask "Nome do produto/serviço principal")
-  PRODUTO_DESC=$(ask "Descreva o produto em uma linha")
-  TICKET=$(ask "Ticket médio" "R$ 0")
-  ICP=$(ask "Descreva seu cliente ideal em uma linha")
-  CARGO_DECISOR=$(ask "Cargo do decisor na empresa do cliente" "CEO / Sócio")
-  DOR1=$(ask "Principal dor que você resolve")
-  DOR2=$(ask "Segunda dor que você resolve")
-  TOM=$(ask "Tom de voz da empresa" "direto, próximo, sem formalidade excessiva")
-  MRR_ATUAL=$(ask "MRR atual" "R$ 0")
-  MRR_META=$(ask "MRR meta" "R$ 0")
-  PRAZO_META=$(ask "Prazo para atingir a meta" "Dezembro 2025")
-  FOCO=$(ask "Maior prioridade do trimestre")
+  local NOME=$(ask "Nome da empresa")
+  local SEGMENTO=$(ask "Segmento" "Ex: Consultoria / E-commerce / Saúde")
+  local PRODUTO=$(ask "Nome do produto ou serviço principal")
+  local PRODUTO_DESC=$(ask "Descreva o produto em uma linha")
+  local TICKET=$(ask "Ticket médio" "R$ 0")
+  local ICP=$(ask "Quem é seu cliente ideal")
+  local DOR1=$(ask "Principal problema que você resolve")
+  local TOM=$(ask "Tom de voz" "direto, próximo, sem enrolação")
+  local FOCO=$(ask "Maior prioridade do trimestre")
+  local MRR_META=$(ask "Meta de faturamento mensal" "R$ 0")
+  local PRAZO=$(ask "Prazo para atingir a meta" "Dezembro 2025")
 
-  # Gera o empresa.yaml
   cat > "$EMPRESA_FILE" << YAML
 # ============================================================
 #  EMPRESA.YAML — Contexto da empresa
 #  Gerado em: $(date '+%d/%m/%Y %H:%M')
-#  Editável manualmente a qualquer momento
 # ============================================================
 
 empresa:
   nome: "${NOME}"
   segmento: "${SEGMENTO}"
-  tamanho: "${TAMANHO}"
-  site: ""
+  tamanho: "1-10"
 
 produto:
-  nome: "${PRODUTO_NOME}"
+  nome: "${PRODUTO}"
   descricao_curta: "${PRODUTO_DESC}"
   ticket_medio: "${TICKET}"
-  modelo_receita: "recorrência mensal"
+  modelo_receita: "projeto"
   diferenciais:
     - "A definir"
 
 cliente_ideal:
   perfil: "${ICP}"
-  cargo_decisor: "${CARGO_DECISOR}"
+  cargo_decisor: "CEO / Sócio"
   dores_principais:
     - "${DOR1}"
-    - "${DOR2}"
   gatilhos_compra:
     - "A definir"
 
@@ -189,10 +254,6 @@ posicionamento:
     - "sinergia"
     - "solução"
     - "robusto"
-
-concorrentes:
-  diretos: []
-  como_se_diferenciar: "A definir"
 
 vendas:
   ciclo_medio: "30 dias"
@@ -210,15 +271,14 @@ marketing:
   pilares_conteudo:
     - "Educação"
     - "Cases"
-    - "Bastidores"
 
 financeiro:
   moeda: "BRL"
   regime_tributario: "Simples Nacional"
   metas:
-    mrr_atual: "${MRR_ATUAL}"
+    mrr_atual: "R$ 0"
     mrr_meta: "${MRR_META}"
-    prazo_meta: "${PRAZO_META}"
+    prazo_meta: "${PRAZO}"
 
 time:
   fundadores:
@@ -232,56 +292,65 @@ metas_trimestre:
   foco_principal: "${FOCO}"
   iniciativas: []
   metricas_acompanhadas:
-    - "MRR"
-    - "Novos clientes"
+    - "Faturamento"
+    - "Leads"
+    - "Conversão"
 YAML
 
-  print_ok "empresa.yaml criado em $EMPRESA_FILE"
+  # Atualiza também no .claude
+  cp "$EMPRESA_FILE" "$HOME/.claude/empresa.yaml" 2>/dev/null || true
+
+  print_ok "empresa.yaml configurado"
 }
 
 # ============================================================
-# CONFIGURAÇÃO DO CLAUDE CODE
+# CONFIGURAÇÃO DO CLAUDE CODE (CLAUDE.md)
 # ============================================================
 
-setup_claude() {
+setup_claude_md() {
   print_step "Configurando Claude Code..."
 
-  # Cria CLAUDE.md na pasta do usuário para ler empresa.yaml automaticamente
-  CLAUDE_MD="$HOME/CLAUDE.md"
+  local CLAUDE_MD="$HOME/.claude/CLAUDE.md"
+  mkdir -p "$HOME/.claude"
 
-  if [ -f "$CLAUDE_MD" ]; then
-    # Adiciona instrução no final sem sobrescrever
-    if ! grep -q "empresa.yaml" "$CLAUDE_MD"; then
-      cat >> "$CLAUDE_MD" << 'CLAUDEMD'
+  cat > "$CLAUDE_MD" << 'CLAUDEMD'
+# SQUADS — Times de IA para Empresários
 
-# Squads — Times de IA
-Você tem times de IA disponíveis em ~/.squads/.
-Antes de qualquer tarefa empresarial, leia ~/.squads/empresa.yaml para ter o contexto da empresa.
-Use /squad-[nome]:[agente] para ativar agentes específicos.
+## Inicialização obrigatória
+Ao iniciar qualquer conversa:
+1. Leia ~/.claude/empresa.yaml
+2. Carregue o contexto da empresa na memória
+3. Confirme internamente: você sabe o nome da empresa, produto, ICP, tom de voz e metas
+4. Nunca peça informações que já estão no empresa.yaml
+
+## Skills disponíveis
+Você tem 6 times de IA instalados em ~/.claude/skills/:
+- squad-comercial  → Prospecção, Proposta, Follow-up, Atendimento
+- squad-gestao     → Prioridade Semanal, Reunião, Estratégia, Relatório
+- squad-marketing  → Conteúdo, Anúncio, Email, Pesquisa de Mercado
+- squad-operacoes  → Operacional, Contratação, Delegação
+- squad-financeiro → Análise Financeira, Precificação
+- squad-cs         → Onboarding, Atendimento, Anti-Churn
+
+## Como ativar os agentes
+O usuário descreve o problema em português.
+Você identifica o squad mais relevante e ativa o agente correto lendo o SKILL.md correspondente.
+
+Exemplos de ativação automática:
+- "Preciso prospectar clientes"     → squad-comercial / prospeccao
+- "Tenho uma reunião bagunçada"     → squad-gestao / reuniao
+- "Quero criar um post"             → squad-marketing / conteudo
+- "Meus números do mês"             → squad-financeiro / analise
+- "Cliente quer cancelar"           → squad-cs / anti-churn
+- "Quero delegar tarefas"           → squad-operacoes / delegacao
+
+## Regra crítica
+Sempre responda em português do Brasil.
+Tom de voz definido em empresa.yaml — posicionamento.tom_de_voz.
+Nunca use palavras genéricas de IA. Soe como um especialista humano real.
 CLAUDEMD
-      print_ok "Instrução adicionada ao CLAUDE.md existente"
-    else
-      print_ok "CLAUDE.md já configurado"
-    fi
-  else
-    cat > "$CLAUDE_MD" << 'CLAUDEMD'
-# Contexto do Ambiente
 
-## Times de IA (Squads)
-Você tem times de IA instalados em ~/.squads/.
-Antes de qualquer tarefa empresarial, leia ~/.squads/empresa.yaml para ter o contexto da empresa.
-Os agentes estão organizados em squads por área de negócio.
-
-## Como usar os squads
-Use /squad-[nome]:[agente] para ativar agentes específicos.
-Exemplos:
-- /squad-comercial:prospeccao
-- /squad-gestao:prioridade
-- /squad-marketing:conteudo
-- /squad-financeiro:analise
-CLAUDEMD
-    print_ok "CLAUDE.md criado em $HOME"
-  fi
+  print_ok "CLAUDE.md configurado em ~/.claude/"
 }
 
 # ============================================================
@@ -294,24 +363,29 @@ print_summary() {
   echo -e "${GREEN}${BOLD}  ✓ Instalação concluída!${NC}"
   echo -e "${BOLD}=================================================${NC}"
   echo ""
-  echo -e "  ${BOLD}Times instalados:${NC}"
-  echo "   • /squad-comercial  — Prospecção, Proposta, Follow-up, Atendimento"
-  echo "   • /squad-gestao     — Prioridades, Reunião, Estratégia, Relatório"
-  echo "   • /squad-marketing  — Conteúdo, Anúncios, Email, Pesquisa"
-  echo "   • /squad-operacoes  — Processos, Contratação, Delegação"
-  echo "   • /squad-financeiro — Análise Financeira, Precificação"
-  echo "   • /squad-cs         — Onboarding, Atendimento, Anti-Churn"
+  echo -e "  ${BOLD}Seu time de IA está pronto:${NC}"
+  echo "   💼 Squad Comercial   — Prospecção, Proposta, Follow-up, Atendimento"
+  echo "   🎯 Squad Gestão      — Prioridades, Reunião, Estratégia, Relatório"
+  echo "   📣 Squad Marketing   — Conteúdo, Anúncios, Email, Pesquisa"
+  echo "   ⚙️  Squad Operações   — Processos, Contratação, Delegação"
+  echo "   📊 Squad Financeiro  — Análise Financeira, Precificação"
+  echo "   🤝 Squad CS          — Onboarding, Atendimento, Anti-Churn"
   echo ""
   echo -e "  ${BOLD}Como usar:${NC}"
-  echo "   1. Abra o terminal na pasta do seu projeto"
+  echo "   1. Abra o terminal em qualquer pasta"
   echo "   2. Digite: claude"
-  echo "   3. Digite: /squad-gestao:prioridade"
-  echo "   4. Descreva o que precisa — o agente já sabe quem é sua empresa"
+  echo "   3. Descreva o que precisa em português"
+  echo "   4. O agente certo entra em ação sozinho"
+  echo ""
+  echo -e "  ${BOLD}Exemplo:${NC}"
+  echo '   "Preciso prospectar donos de clínicas em SP"'
+  echo '   "Tenho uma reunião bagunçada — aqui as notas:"'
+  echo '   "Meus números do mês: faturei X, gastei Y"'
   echo ""
   echo -e "  ${BOLD}Editar contexto da empresa:${NC}"
-  echo "   $EMPRESA_FILE"
+  echo "   $SQUADS_DIR/squads/empresa.yaml"
   echo ""
-  echo -e "  ${BOLD}Precisa de ajuda?${NC}"
+  echo -e "  ${BOLD}Suporte:${NC}"
   echo "   $REPO_URL"
   echo ""
 }
@@ -322,10 +396,11 @@ print_summary() {
 
 main() {
   print_header
-  check_requirements
+  check_and_install_requirements
   download_squads
+  install_skills
   configure_empresa
-  setup_claude
+  setup_claude_md
   print_summary
 }
 
