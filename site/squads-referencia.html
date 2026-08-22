@@ -7,339 +7,298 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>body { visibility: hidden; }</style>
 
-
 <title>Squads — Referência</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-body { background: var(--bg); color: var(--text); }
-
-nav { background: var(--nav-bg); }
-.nav-logo { color: var(--text); }
-.btn-outline { color: var(--text-muted); border: 1px solid var(--border); }
-.btn-outline:hover { color: var(--text); border-color: var(--text-muted); }
-
-.page-header { background: var(--bg-alt); border-bottom: 1px solid var(--border); padding: 32px 5%; }
-.page-header h1 { color: var(--text); font-size: 28px; font-weight: 800; margin-bottom: 6px; }
-.page-header p { color: var(--text-muted); font-size: 15px; }
-
-.tab-nav { background: var(--bg-alt); border-bottom: 1px solid var(--border); padding: 0 5%; display: flex; overflow-x: auto; }
-.tab-nav a { display: inline-flex; align-items: center; gap: 8px; padding: 16px 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.15s; }
-.tab-nav a:hover { color: var(--text); }
-.tab-nav a.active { color: var(--green); border-bottom-color: var(--green); }
-
 /* STATS */
 .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
-.stat-box { background: var(--bg-alt); padding: 28px; text-align: center; }
-.stat-num { font-size: 36px; font-weight: 800; }
-.stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-
-.container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+.stat-box { background: var(--surface); padding: 26px; text-align: center; }
+.stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; }
+.stat-label { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; }
 
 /* SQUAD SECTION */
-.squad-section { margin-bottom: 48px; }
-.squad-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-.squad-section-icon { font-size: 28px; }
-.squad-section-title { font-size: 22px; font-weight: 800; color: var(--text); }
-.squad-section-desc { font-size: 14px; color: var(--text-muted); margin-top: 3px; }
-.squad-badge { padding: 3px 10px; border-radius: 50px; font-size: 11px; font-weight: 700; margin-left: auto; flex-shrink: 0; }
+.squad-section { margin-bottom: 44px; }
+.squad-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.squad-section-icon { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.squad-section-icon .icon { color: white; width: 21px; height: 21px; }
+.squad-section-title { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; color: var(--text); }
+.squad-section-desc { font-size: 13.5px; color: var(--text-muted); margin-top: 3px; }
+.squad-badge { padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; margin-left: auto; flex-shrink: 0; }
 
 /* AGENTS GRID */
-.agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
 
 .agent-card {
-  background: var(--bg-card);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
+  border-radius: var(--radius-sm);
+  padding: 18px;
   transition: all 0.2s;
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
-.agent-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); border-color: #58a6ff; }
-
-.agent-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
-.agent-name { font-size: 14px; font-weight: 700; color: var(--text); }
-.agent-command { font-family: 'Courier New', monospace; font-size: 11px; color: var(--green); background: rgba(33,196,93,0.08); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(33,196,93,0.2); }
-.agent-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+.agent-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.4); }
+.agent-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.agent-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.agent-command { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan); background: rgba(6,182,212,0.1); padding: 3px 8px; border-radius: 5px; border: 1px solid rgba(6,182,212,0.2); flex-shrink: 0; white-space: nowrap; }
+.agent-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
 .agent-frameworks { display: flex; flex-wrap: wrap; gap: 6px; }
-.framework-tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: var(--bg-alt); color: var(--text-muted); border: 1px solid var(--border); }
-
-/* COPY TOAST */
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--bg-card); color: var(--text); padding: 10px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; border: 1px solid var(--border); opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 999; }
-.toast.show { opacity: 1; }
+.framework-tag { font-size: 10.5px; padding: 3px 9px; border-radius: 5px; background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
 
 @media (max-width: 768px) {
   .stats-row { grid-template-columns: repeat(2, 1fr); }
   .agents-grid { grid-template-columns: 1fr; }
 }
-@media (max-width: 480px) {
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-}
 </style>
-<script>(function(){var t=localStorage.getItem('squads_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 
+<body>
 
-  <body>
-<nav>
-  <a href="index.html" class="nav-logo"><div class="logo-icon">S</div>Squads</a>
-  <a href="index.html" class="btn-outline">← Site</a>
-  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Alternar tema">🌙</button>
-</nav>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-film" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="7" y1="3" x2="7" y2="21"/><line x1="17" y1="3" x2="17" y2="21"/><line x1="2" y1="8" x2="7" y2="8"/><line x1="2" y1="16" x2="7" y2="16"/><line x1="17" y1="8" x2="22" y2="8"/><line x1="17" y1="16" x2="22" y2="16"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 11v3a1 1 0 0 0 1 1h2l3.5 5 1-.5L9 15h1l9 4V5l-9 4H3z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z"/></symbol>
+    <symbol id="i-bar-chart" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></symbol>
+    <symbol id="i-handshake" viewBox="0 0 24 24"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></symbol>
+  </defs>
+</svg>
 
-<div class="page-header">
-  <h1>Referência dos Squads</h1>
-  <p>Todos os times e comandos disponíveis. Clique no card para copiar o comando.</p>
-</div>
+<div class="app-shell">
 
-<div class="tab-nav">
-  <a href="aulas.html">🎬 Aulas</a>
-  <a href="download-instalacao.html">📦 Download & Instalação</a>
-  <a href="squads-referencia.html" class="active">🤖 Squads</a>
-</div>
-
-<div class="stats-row">
-  <div class="stat-box"><div class="stat-num" style="color:#21C45D">6</div><div class="stat-label">Squads</div></div>
-  <div class="stat-box"><div class="stat-num" style="color:#58a6ff">18</div><div class="stat-label">Agentes</div></div>
-  <div class="stat-box"><div class="stat-num" style="color:#f78166">12</div><div class="stat-label">Workflows</div></div>
-  <div class="stat-box"><div class="stat-num" style="color:#d2a8ff">1</div><div class="stat-label">Config única</div></div>
-</div>
-
-<div class="container">
-
-  <!-- COMERCIAL -->
-  <div class="squad-section">
-    <div class="squad-section-header">
-      <span class="squad-section-icon">💼</span>
-      <div>
-        <div class="squad-section-title">Squad Comercial</div>
-        <div class="squad-section-desc">Fechar mais vendas, com os clientes certos, mais rápido.</div>
-      </div>
-      <span class="squad-badge" style="background:rgba(33,196,93,0.1);color:#21C45D;border:1px solid rgba(33,196,93,0.3)">4 agentes</span>
+  <aside class="sidebar">
+    <a href="../index.html" class="side-logo"><div class="logo-icon">S</div>Squads</a>
+    <div class="side-section-label">Área de membros</div>
+    <nav class="side-nav">
+      <a href="aulas.html" class="side-link"><svg class="icon"><use href="#i-film"></use></svg>Aulas</a>
+      <a href="download-instalacao.html" class="side-link"><svg class="icon"><use href="#i-download"></use></svg>Download & Instalação</a>
+      <a href="squads-referencia.html" class="side-link active"><svg class="icon"><use href="#i-layers"></use></svg>Referência de Agentes</a>
+    </nav>
+    <div class="side-footer">
+      <a href="../index.html" class="side-back"><svg class="icon"><use href="#i-chevron-left"></use></svg>Voltar ao site</a>
     </div>
-    <div class="agents-grid">
-      <div class="agent-card" style="--card-color:#21C45D" onclick="copyCmd('/squad-comercial:prospeccao',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#21C45D;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top">
-          <div class="agent-name">Agente de Prospecção</div>
-          <span class="agent-command">:prospeccao</span>
+  </aside>
+
+  <div class="main-content">
+    <div class="mobile-topbar">
+      <a href="../index.html" class="side-logo"><div class="logo-icon">S</div>Squads</a>
+      <a href="../index.html" class="btn btn-outline" style="padding:8px 14px;font-size:13px;">Site</a>
+    </div>
+    <div class="mobile-tabs">
+      <a href="aulas.html">Aulas</a>
+      <a href="download-instalacao.html">Instalação</a>
+      <a href="squads-referencia.html" class="active">Referência</a>
+    </div>
+
+    <div class="page-header">
+      <h1>Referência dos Squads</h1>
+      <p>Todos os times e comandos disponíveis. Clique no card para copiar o comando.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num" style="color:#3b82f6">6</div><div class="stat-label">Squads</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:#06b6d4">20</div><div class="stat-label">Agentes</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:#a78bfa">12</div><div class="stat-label">Workflows</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:#67e8f9">1</div><div class="stat-label">Config única</div></div>
+    </div>
+
+    <div class="container">
+
+      <!-- COMERCIAL -->
+      <div class="squad-section">
+        <div class="squad-section-header">
+          <div class="squad-section-icon" style="background:linear-gradient(135deg,#2563eb,#06b6d4)"><svg class="icon"><use href="#i-briefcase"></use></svg></div>
+          <div>
+            <div class="squad-section-title">Squad Comercial</div>
+            <div class="squad-section-desc">Fechar mais vendas, com os clientes certos, mais rápido.</div>
+          </div>
+          <span class="squad-badge" style="background:rgba(37,99,235,0.12);color:#3b82f6;border:1px solid rgba(37,99,235,0.3)">4 agentes</span>
         </div>
-        <div class="agent-desc">Encontra e aborda os leads certos com mensagens personalizadas. BANT qualification + Aaron Ross.</div>
-        <div class="agent-frameworks">
-          <span class="framework-tag">Predictable Revenue</span>
-          <span class="framework-tag">BANT</span>
-          <span class="framework-tag">Cold Email</span>
+        <div class="agents-grid">
+          <div class="agent-card" onclick="copyCmd('/squad-comercial:prospeccao',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Prospecção</div><span class="agent-command">:prospeccao</span></div>
+            <div class="agent-desc">Encontra e aborda os leads certos com mensagens personalizadas. BANT qualification + Aaron Ross.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Predictable Revenue</span><span class="framework-tag">BANT</span><span class="framework-tag">Cold Email</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-comercial:proposta',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Proposta Comercial</div><span class="agent-command">:proposta</span></div>
+            <div class="agent-desc">Cria propostas que fecham. MEDDIC qualification + Challenger Sale + SPIN Selling.</div>
+            <div class="agent-frameworks"><span class="framework-tag">MEDDIC</span><span class="framework-tag">Challenger Sale</span><span class="framework-tag">SPIN</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-comercial:followup',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Follow-Up</div><span class="agent-command">:followup</span></div>
+            <div class="agent-desc">Reengaja leads silenciosos com valor, nunca com cobrança. Pipeline velocity analysis.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Fanatical Prospecting</span><span class="framework-tag">Value Follow-Up</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-comercial:atendimento',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Atendimento</div><span class="agent-command">:atendimento</span></div>
+            <div class="agent-desc">Trata objeções, reclamações e risco de churn. LAER + Harvard Negotiation Project.</div>
+            <div class="agent-frameworks"><span class="framework-tag">LAER</span><span class="framework-tag">Harvard Negotiation</span><span class="framework-tag">Gainsight</span></div>
+          </div>
         </div>
       </div>
-      <div class="agent-card" onclick="copyCmd('/squad-comercial:proposta',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#21C45D;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top">
-          <div class="agent-name">Agente de Proposta Comercial</div>
-          <span class="agent-command">:proposta</span>
+
+      <!-- GESTÃO -->
+      <div class="squad-section">
+        <div class="squad-section-header">
+          <div class="squad-section-icon" style="background:linear-gradient(270deg,#3b6bff,#acb7ff)"><svg class="icon"><use href="#i-target"></use></svg></div>
+          <div>
+            <div class="squad-section-title">Squad de Gestão</div>
+            <div class="squad-section-desc">Clareza de prioridades, reuniões com resultado, decisões estratégicas.</div>
+          </div>
+          <span class="squad-badge" style="background:rgba(139,92,246,0.12);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)">4 agentes</span>
         </div>
-        <div class="agent-desc">Cria propostas que fecham. MEDDIC qualification + Challenger Sale + SPIN Selling.</div>
-        <div class="agent-frameworks">
-          <span class="framework-tag">MEDDIC</span>
-          <span class="framework-tag">Challenger Sale</span>
-          <span class="framework-tag">SPIN</span>
-        </div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-comercial:followup',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#21C45D;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top">
-          <div class="agent-name">Agente de Follow-Up</div>
-          <span class="agent-command">:followup</span>
-        </div>
-        <div class="agent-desc">Reengaja leads silenciosos com valor, nunca com cobrança. Pipeline velocity analysis.</div>
-        <div class="agent-frameworks">
-          <span class="framework-tag">Fanatical Prospecting</span>
-          <span class="framework-tag">Value Follow-Up</span>
-        </div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-comercial:atendimento',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#21C45D;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top">
-          <div class="agent-name">Agente de Atendimento</div>
-          <span class="agent-command">:atendimento</span>
-        </div>
-        <div class="agent-desc">Trata objeções, reclamações e risco de churn. LAER + Harvard Negotiation Project.</div>
-        <div class="agent-frameworks">
-          <span class="framework-tag">LAER</span>
-          <span class="framework-tag">Harvard Negotiation</span>
-          <span class="framework-tag">Gainsight</span>
+        <div class="agents-grid">
+          <div class="agent-card" onclick="copyCmd('/squad-gestao:prioridade',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Prioridade Semanal</div><span class="agent-command">:prioridade</span></div>
+            <div class="agent-desc">As 3 prioridades que realmente movem o negócio essa semana. Eisenhower + OKR + 80/20.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Eisenhower Matrix</span><span class="framework-tag">OKR</span><span class="framework-tag">GTD</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-gestao:reuniao',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Reunião</div><span class="agent-command">:reuniao</span></div>
+            <div class="agent-desc">Transforma notas bagunçadas em ata com donos e prazos. Pronto para copiar no WhatsApp.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Action Extraction</span><span class="framework-tag">Health Scoring</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-gestao:estrategia',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente Estratégico</div><span class="agent-command">:estrategia</span></div>
+            <div class="agent-desc">Advisor que fala a verdade. First Principles + Inversion Thinking + Strategic Choice Cascade.</div>
+            <div class="agent-frameworks"><span class="framework-tag">First Principles</span><span class="framework-tag">Inversion</span><span class="framework-tag">Amazon Type 1/2</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-gestao:relatorio',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Relatório Semanal</div><span class="agent-command">:relatorio</span></div>
+            <div class="agent-desc">Relatório semanal do negócio com variance analysis. Pronto para compartilhar com sócios.</div>
+            <div class="agent-frameworks"><span class="framework-tag">KPI Dashboard</span><span class="framework-tag">Variance Analysis</span><span class="framework-tag">OKR Tracking</span></div>
+          </div>
         </div>
       </div>
+
+      <!-- MARKETING -->
+      <div class="squad-section">
+        <div class="squad-section-header">
+          <div class="squad-section-icon" style="background:linear-gradient(90deg,#d97757,#c44632)"><svg class="icon"><use href="#i-megaphone"></use></svg></div>
+          <div>
+            <div class="squad-section-title">Squad de Marketing</div>
+            <div class="squad-section-desc">Conteúdo que converte, anúncios que qualificam, pesquisa que informa.</div>
+          </div>
+          <span class="squad-badge" style="background:rgba(217,119,6,0.12);color:#fbbf24;border:1px solid rgba(217,119,6,0.3)">4 agentes</span>
+        </div>
+        <div class="agents-grid">
+          <div class="agent-card" onclick="copyCmd('/squad-marketing:conteudo',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Conteúdo</div><span class="agent-command">:conteudo</span></div>
+            <div class="agent-desc">Transforma ideias brutas em conteúdo que para o scroll. Reels, carrossel, legenda, stories.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Schwartz Awareness</span><span class="framework-tag">Consumer Psychology</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-marketing:anuncio',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Copy de Anúncio</div><span class="agent-command">:anuncio</span></div>
+            <div class="agent-desc">3 versões A/B/C para teste com protocolo de decisão. Breakthrough Advertising.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Breakthrough Advertising</span><span class="framework-tag">CopyHackers</span><span class="framework-tag">A/B/C Testing</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-marketing:email',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Email Marketing</div><span class="agent-command">:email</span></div>
+            <div class="agent-desc">Sequências que nutrem, convertem e retêm. Boas-vindas, nutrição, conversão, reengajamento.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Soap Opera Sequence</span><span class="framework-tag">Email Players</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-marketing:pesquisa',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Pesquisa de Mercado</div><span class="agent-command">:pesquisa</span></div>
+            <div class="agent-desc">Inteligência competitiva e análise de ICP. Jobs to Be Done + Opportunity Analysis.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Jobs to Be Done</span><span class="framework-tag">Competitive Intel</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPERAÇÕES -->
+      <div class="squad-section">
+        <div class="squad-section-header">
+          <div class="squad-section-icon" style="background:radial-gradient(125% 100% at 50% 0%,#1d4ed8,#0b1d5c)"><svg class="icon"><use href="#i-settings"></use></svg></div>
+          <div>
+            <div class="squad-section-title">Squad de Operações</div>
+            <div class="squad-section-desc">Negócio que funciona sem depender do dono.</div>
+          </div>
+          <span class="squad-badge" style="background:rgba(37,99,235,0.12);color:#93c5fd;border:1px solid rgba(37,99,235,0.3)">3 agentes</span>
+        </div>
+        <div class="agents-grid">
+          <div class="agent-card" onclick="copyCmd('/squad-operacoes:operacional',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente Operacional</div><span class="agent-command">:operacional</span></div>
+            <div class="agent-desc">Identifica gargalos e mapeia processos. Theory of Constraints + BPM + EOS/Traction.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Theory of Constraints</span><span class="framework-tag">BPM</span><span class="framework-tag">EOS/Traction</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-operacoes:contratacao',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Contratação</div><span class="agent-command">:contratacao</span></div>
+            <div class="agent-desc">Processo seletivo completo para contratar A-players na primeira vez. Topgrading + STAR.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Topgrading</span><span class="framework-tag">STAR</span><span class="framework-tag">Culture Add</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-operacoes:delegacao',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Delegação</div><span class="agent-command">:delegacao</span></div>
+            <div class="agent-desc">Libera o dono das tarefas que o time pode fazer. Calcula o custo de oportunidade real.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Delegation Poker</span><span class="framework-tag">Mochary Leverage</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FINANCEIRO -->
+      <div class="squad-section">
+        <div class="squad-section-header">
+          <div class="squad-section-icon" style="background:radial-gradient(189% 139% at 100% 0%,#67e8f9,#164e63)"><svg class="icon"><use href="#i-bar-chart"></use></svg></div>
+          <div>
+            <div class="squad-section-title">Squad Financeiro</div>
+            <div class="squad-section-desc">Clareza nos números e precificação certa.</div>
+          </div>
+          <span class="squad-badge" style="background:rgba(8,145,178,0.12);color:#67e8f9;border:1px solid rgba(8,145,178,0.3)">2 agentes</span>
+        </div>
+        <div class="agents-grid">
+          <div class="agent-card" onclick="copyCmd('/squad-financeiro:analise',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Análise Financeira</div><span class="agent-command">:analise</span></div>
+            <div class="agent-desc">Transforma dados brutos em decisões claras. DRE, fluxo de caixa, anomaly detection.</div>
+            <div class="agent-frameworks"><span class="framework-tag">CFO Lens</span><span class="framework-tag">80/20 Revenue</span><span class="framework-tag">Anomaly Detection</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-financeiro:preco',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Precificação</div><span class="agent-command">:preco</span></div>
+            <div class="agent-desc">Define o preço certo baseado em valor, não em custo. Estrutura de planos com decoy pricing.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Value-Based Pricing</span><span class="framework-tag">Ariely Psychology</span><span class="framework-tag">ProfitWell</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CS -->
+      <div class="squad-section">
+        <div class="squad-section-header">
+          <div class="squad-section-icon" style="background:linear-gradient(270deg,#16a34a,#065f46)"><svg class="icon"><use href="#i-handshake"></use></svg></div>
+          <div>
+            <div class="squad-section-title">Squad de Customer Success</div>
+            <div class="squad-section-desc">Clientes que ficam, crescem e indicam.</div>
+          </div>
+          <span class="squad-badge" style="background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.3)">3 agentes</span>
+        </div>
+        <div class="agents-grid">
+          <div class="agent-card" onclick="copyCmd('/squad-cs:onboarding',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Onboarding</div><span class="agent-command">:onboarding</span></div>
+            <div class="agent-desc">Garante que o cliente chegue ao First Value Moment rápido. Lincoln Murphy + JTBD.</div>
+            <div class="agent-frameworks"><span class="framework-tag">Lincoln Murphy</span><span class="framework-tag">JTBD</span><span class="framework-tag">First Value Moment</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-cs:atendimento',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente de Atendimento</div><span class="agent-command">:atendimento</span></div>
+            <div class="agent-desc">Trata objeções e situações difíceis. LAER + Harvard Negotiation. Modo CS focado.</div>
+            <div class="agent-frameworks"><span class="framework-tag">LAER</span><span class="framework-tag">Harvard Negotiation</span></div>
+          </div>
+          <div class="agent-card" onclick="copyCmd('/squad-cs:churn',this)">
+            <div class="agent-card-top"><div class="agent-name">Agente Anti-Churn</div><span class="agent-command">:churn</span></div>
+            <div class="agent-desc">Identifica sinais de risco e intervém antes do cancelamento. Churn Autopsy Process.</div>
+            <div class="agent-frameworks"><span class="framework-tag">NRR Framework</span><span class="framework-tag">Health Scoring</span><span class="framework-tag">Churn Autopsy</span></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-
-  <!-- GESTÃO -->
-  <div class="squad-section">
-    <div class="squad-section-header">
-      <span class="squad-section-icon">🎯</span>
-      <div>
-        <div class="squad-section-title">Squad de Gestão</div>
-        <div class="squad-section-desc">Clareza de prioridades, reuniões com resultado, decisões estratégicas.</div>
-      </div>
-      <span class="squad-badge" style="background:rgba(139,92,246,0.1);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)">4 agentes</span>
-    </div>
-    <div class="agents-grid">
-      <div class="agent-card" onclick="copyCmd('/squad-gestao:prioridade',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#7c3aed;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Prioridade Semanal</div><span class="agent-command">:prioridade</span></div>
-        <div class="agent-desc">As 3 prioridades que realmente movem o negócio essa semana. Eisenhower + OKR + 80/20.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Eisenhower Matrix</span><span class="framework-tag">OKR</span><span class="framework-tag">GTD</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-gestao:reuniao',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#7c3aed;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Reunião</div><span class="agent-command">:reuniao</span></div>
-        <div class="agent-desc">Transforma notas bagunçadas em ata com donos e prazos. Pronto para copiar no WhatsApp.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Action Extraction</span><span class="framework-tag">Health Scoring</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-gestao:estrategia',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#7c3aed;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente Estratégico</div><span class="agent-command">:estrategia</span></div>
-        <div class="agent-desc">Advisor que fala a verdade. First Principles + Inversion Thinking + Strategic Choice Cascade.</div>
-        <div class="agent-frameworks"><span class="framework-tag">First Principles</span><span class="framework-tag">Inversion</span><span class="framework-tag">Amazon Type 1/2</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-gestao:relatorio',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#7c3aed;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Relatório Semanal</div><span class="agent-command">:relatorio</span></div>
-        <div class="agent-desc">Relatório semanal do negócio com variance analysis. Pronto para compartilhar com sócios.</div>
-        <div class="agent-frameworks"><span class="framework-tag">KPI Dashboard</span><span class="framework-tag">Variance Analysis</span><span class="framework-tag">OKR Tracking</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MARKETING -->
-  <div class="squad-section">
-    <div class="squad-section-header">
-      <span class="squad-section-icon">📣</span>
-      <div>
-        <div class="squad-section-title">Squad de Marketing</div>
-        <div class="squad-section-desc">Conteúdo que converte, anúncios que qualificam, pesquisa que informa.</div>
-      </div>
-      <span class="squad-badge" style="background:rgba(217,119,6,0.1);color:#fbbf24;border:1px solid rgba(217,119,6,0.3)">4 agentes</span>
-    </div>
-    <div class="agents-grid">
-      <div class="agent-card" onclick="copyCmd('/squad-marketing:conteudo',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#d97706;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Conteúdo</div><span class="agent-command">:conteudo</span></div>
-        <div class="agent-desc">Transforma ideias brutas em conteúdo que para o scroll. Reels, carrossel, legenda, stories.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Schwartz Awareness</span><span class="framework-tag">Consumer Psychology</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-marketing:anuncio',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#d97706;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Copy de Anúncio</div><span class="agent-command">:anuncio</span></div>
-        <div class="agent-desc">3 versões A/B/C para teste com protocolo de decisão. Breakthrough Advertising.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Breakthrough Advertising</span><span class="framework-tag">CopyHackers</span><span class="framework-tag">A/B/C Testing</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-marketing:email',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#d97706;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Email Marketing</div><span class="agent-command">:email</span></div>
-        <div class="agent-desc">Sequências que nutrem, convertem e retêm. Boas-vindas, nutrição, conversão, reengajamento.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Soap Opera Sequence</span><span class="framework-tag">Email Players</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-marketing:pesquisa',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#d97706;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Pesquisa de Mercado</div><span class="agent-command">:pesquisa</span></div>
-        <div class="agent-desc">Inteligência competitiva e análise de ICP. Jobs to Be Done + Opportunity Analysis.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Jobs to Be Done</span><span class="framework-tag">Competitive Intel</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- OPERAÇÕES -->
-  <div class="squad-section">
-    <div class="squad-section-header">
-      <span class="squad-section-icon">⚙️</span>
-      <div>
-        <div class="squad-section-title">Squad de Operações</div>
-        <div class="squad-section-desc">Negócio que funciona sem depender do dono.</div>
-      </div>
-      <span class="squad-badge" style="background:rgba(220,38,38,0.1);color:#f87171;border:1px solid rgba(220,38,38,0.3)">3 agentes</span>
-    </div>
-    <div class="agents-grid">
-      <div class="agent-card" onclick="copyCmd('/squad-operacoes:operacional',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#dc2626;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente Operacional</div><span class="agent-command">:operacional</span></div>
-        <div class="agent-desc">Identifica gargalos e mapeia processos. Theory of Constraints + BPM + EOS/Traction.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Theory of Constraints</span><span class="framework-tag">BPM</span><span class="framework-tag">EOS/Traction</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-operacoes:contratacao',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#dc2626;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Contratação</div><span class="agent-command">:contratacao</span></div>
-        <div class="agent-desc">Processo seletivo completo para contratar A-players na primeira vez. Topgrading + STAR.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Topgrading</span><span class="framework-tag">STAR</span><span class="framework-tag">Culture Add</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-operacoes:delegacao',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#dc2626;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Delegação</div><span class="agent-command">:delegacao</span></div>
-        <div class="agent-desc">Libera o dono das tarefas que o time pode fazer. Calcula o custo de oportunidade real.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Delegation Poker</span><span class="framework-tag">Mochary Leverage</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FINANCEIRO -->
-  <div class="squad-section">
-    <div class="squad-section-header">
-      <span class="squad-section-icon">📊</span>
-      <div>
-        <div class="squad-section-title">Squad Financeiro</div>
-        <div class="squad-section-desc">Clareza nos números e precificação certa.</div>
-      </div>
-      <span class="squad-badge" style="background:rgba(124,58,237,0.1);color:#a78bfa;border:1px solid rgba(124,58,237,0.3)">2 agentes</span>
-    </div>
-    <div class="agents-grid">
-      <div class="agent-card" onclick="copyCmd('/squad-financeiro:analise',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#7c3aed;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Análise Financeira</div><span class="agent-command">:analise</span></div>
-        <div class="agent-desc">Transforma dados brutos em decisões claras. DRE, fluxo de caixa, anomaly detection.</div>
-        <div class="agent-frameworks"><span class="framework-tag">CFO Lens</span><span class="framework-tag">80/20 Revenue</span><span class="framework-tag">Anomaly Detection</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-financeiro:preco',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#7c3aed;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Precificação</div><span class="agent-command">:preco</span></div>
-        <div class="agent-desc">Define o preço certo baseado em valor, não em custo. Estrutura de planos com decoy pricing.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Value-Based Pricing</span><span class="framework-tag">Ariely Psychology</span><span class="framework-tag">ProfitWell</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CS -->
-  <div class="squad-section">
-    <div class="squad-section-header">
-      <span class="squad-section-icon">🤝</span>
-      <div>
-        <div class="squad-section-title">Squad de Customer Success</div>
-        <div class="squad-section-desc">Clientes que ficam, crescem e indicam.</div>
-      </div>
-      <span class="squad-badge" style="background:rgba(8,145,178,0.1);color:#67e8f9;border:1px solid rgba(8,145,178,0.3)">3 agentes</span>
-    </div>
-    <div class="agents-grid">
-      <div class="agent-card" onclick="copyCmd('/squad-cs:onboarding',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#0891b2;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Onboarding</div><span class="agent-command">:onboarding</span></div>
-        <div class="agent-desc">Garante que o cliente chegue ao First Value Moment rápido. Lincoln Murphy + JTBD.</div>
-        <div class="agent-frameworks"><span class="framework-tag">Lincoln Murphy</span><span class="framework-tag">JTBD</span><span class="framework-tag">First Value Moment</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-cs:atendimento',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#0891b2;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente de Atendimento</div><span class="agent-command">:atendimento</span></div>
-        <div class="agent-desc">Trata objeções e situações difíceis. LAER + Harvard Negotiation. Modo CS focado.</div>
-        <div class="agent-frameworks"><span class="framework-tag">LAER</span><span class="framework-tag">Harvard Negotiation</span></div>
-      </div>
-      <div class="agent-card" onclick="copyCmd('/squad-cs:churn',this)">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#0891b2;border-radius:3px 3px 0 0"></div>
-        <div class="agent-card-top"><div class="agent-name">Agente Anti-Churn</div><span class="agent-command">:churn</span></div>
-        <div class="agent-desc">Identifica sinais de risco e intervém antes do cancelamento. Churn Autopsy Process.</div>
-        <div class="agent-frameworks"><span class="framework-tag">NRR Framework</span><span class="framework-tag">Health Scoring</span><span class="framework-tag">Churn Autopsy</span></div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <div class="toast" id="toast">✓ Comando copiado!</div>
@@ -354,25 +313,6 @@ function copyCmd(cmd, card) {
   });
 }
 </script>
-
-<script>
-function toggleTheme() {
-  var current = document.documentElement.getAttribute('data-theme');
-  var next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('squads_theme', next);
-  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
-}
-// Set correct icon on load
-(function(){
-  var t = document.documentElement.getAttribute('data-theme');
-  window.addEventListener('DOMContentLoaded', function(){
-    var btn = document.getElementById('theme-btn');
-    if(btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  });
-})();
-</script>
 <script src="auth-guard.js"></script>
-
 </body>
 </html>

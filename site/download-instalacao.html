@@ -8,182 +8,204 @@
 <style>body { visibility: hidden; }</style>
 
 <title>Download & Instalação — Squads</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-body { background: var(--bg); color: var(--text); }
-nav { background: var(--nav-bg); }
-.nav-logo { color: var(--text); }
-.btn-outline { color: var(--text); border-color: var(--border); }
-.page-header { background: var(--bg-card); }
-.page-header h1 { color: var(--text); }
-.page-header p { color: var(--text-muted); }
-.tab-nav { background: var(--bg-card); }
-.tab-nav a { color: var(--text-muted); }
-.tab-nav a:hover { color: var(--text); }
 .container { display: flex; flex-direction: column; gap: 24px; }
 
 /* DOWNLOAD */
-.download-card { background: #111827; border-radius: var(--radius); padding: 32px; color: white; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-.download-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-.download-card p { color: #9ca3af; font-size: 14px; max-width: 420px; line-height: 1.6; }
+.download-card {
+  background: linear-gradient(135deg, rgba(37,99,235,0.16), rgba(6,182,212,0.06));
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 32px; color: white; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+}
+.download-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 700; margin-bottom: 8px; }
+.download-card p { color: var(--text-muted); font-size: 14px; max-width: 460px; line-height: 1.6; }
 .download-files { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-.file-badge { background: #374151; color: #d1d5db; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 50px; }
-.btn-download { background: var(--green); color: white; padding: 14px 28px; border-radius: 50px; font-weight: 700; font-size: 15px; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: background 0.2s; }
-.btn-download:hover { background: var(--green-dark); }
+.file-badge { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 50px; }
 
 /* SECTION CARD */
-.section-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.section-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .section-card-header { padding: 24px 28px; border-bottom: 1px solid var(--border); }
-.section-card-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
-.section-card-header p { font-size: 14px; color: var(--text-muted); }
+.section-card-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.section-card-header p { font-size: 13.5px; color: var(--text-muted); }
 
 /* STEPS */
 .steps { padding: 8px 0; }
 .step { display: flex; gap: 0; padding: 20px 28px; border-bottom: 1px solid var(--border); align-items: flex-start; }
 .step:last-child { border-bottom: none; }
 .step-left { display: flex; flex-direction: column; align-items: center; margin-right: 20px; flex-shrink: 0; }
-.step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--green); color: white; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.step-num { width: 30px; height: 30px; border-radius: 50%; background: rgba(37,99,235,0.15); border: 1px solid rgba(37,99,235,0.3); color: var(--blue-bright); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 .step-line { width: 2px; flex: 1; min-height: 20px; background: var(--border); margin-top: 6px; }
 .step:last-child .step-line { display: none; }
-.step-content { flex: 1; padding-top: 4px; }
+.step-content { flex: 1; padding-top: 3px; }
 .step-content h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.step-content p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+.step-content p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
+.step-content strong { color: var(--text); }
 
 .os-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-.os-tab { padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid var(--border); background: transparent; color: var(--text-muted); transition: all 0.15s; }
-.os-tab.active { background: #111827; color: white; border-color: #111827; }
+.os-tab { padding: 6px 14px; border-radius: 50px; font-size: 12.5px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted); transition: all 0.15s; }
+.os-tab.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+.done-note { margin-top: 10px; font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+.done-note .icon { width: 15px; height: 15px; color: var(--cyan); }
 
 @media (max-width: 640px) {
-  .download-card { flex-direction: column; }
+  .download-card { flex-direction: column; align-items: flex-start; }
   .step { padding: 16px 20px; }
 }
 </style>
-<script>(function(){var t=localStorage.getItem('squads_theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo"><div class="logo-icon">S</div>Squads</a>
-  <a href="index.html" class="btn btn-outline">← Site</a>
-  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Alternar tema">🌙</button>
-</nav>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-film" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="7" y1="3" x2="7" y2="21"/><line x1="17" y1="3" x2="17" y2="21"/><line x1="2" y1="8" x2="7" y2="8"/><line x1="2" y1="16" x2="7" y2="16"/><line x1="17" y1="8" x2="22" y2="8"/><line x1="17" y1="16" x2="22" y2="16"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  </defs>
+</svg>
 
-<div class="page-header">
-  <h1>Download & Instalação</h1>
-  <p>Baixe os arquivos e siga o passo a passo para colocar seu time no ar.</p>
-</div>
+<div class="app-shell">
 
-<div class="tab-nav">
-  <a href="aulas.html">🎬 Aulas</a>
-  <a href="download-instalacao.html" class="active">📦 Download & Instalação</a>
-  <a href="squads-referencia.html">🤖 Squads</a>
-</div>
+  <aside class="sidebar">
+    <a href="../index.html" class="side-logo"><div class="logo-icon">S</div>Squads</a>
+    <div class="side-section-label">Área de membros</div>
+    <nav class="side-nav">
+      <a href="aulas.html" class="side-link"><svg class="icon"><use href="#i-film"></use></svg>Aulas</a>
+      <a href="download-instalacao.html" class="side-link active"><svg class="icon"><use href="#i-download"></use></svg>Download & Instalação</a>
+      <a href="squads-referencia.html" class="side-link"><svg class="icon"><use href="#i-layers"></use></svg>Referência de Agentes</a>
+    </nav>
+    <div class="side-footer">
+      <a href="../index.html" class="side-back"><svg class="icon"><use href="#i-chevron-left"></use></svg>Voltar ao site</a>
+    </div>
+  </aside>
 
-<div class="container">
+  <div class="main-content">
+    <div class="mobile-topbar">
+      <a href="../index.html" class="side-logo"><div class="logo-icon">S</div>Squads</a>
+      <a href="../index.html" class="btn btn-outline" style="padding:8px 14px;font-size:13px;">Site</a>
+    </div>
+    <div class="mobile-tabs">
+      <a href="aulas.html">Aulas</a>
+      <a href="download-instalacao.html" class="active">Instalação</a>
+      <a href="squads-referencia.html">Referência</a>
+    </div>
 
-  <!-- DOWNLOAD -->
-  <div class="download-card">
-    <div>
-      <h2>Instale com um comando só</h2>
-      <p>Cola isso no terminal e o instalador faz tudo automaticamente. Ele vai perguntar sobre sua empresa e configurar os 18 agentes em menos de 5 minutos.</p>
-      <div class="download-files">
-        <span class="file-badge">18 agentes</span>
-        <span class="file-badge">6 squads</span>
-        <span class="file-badge">CLAUDE.md</span>
-        <span class="file-badge">empresa.yaml</span>
-        <span class="file-badge">install.sh</span>
+    <div class="page-header">
+      <h1>Download & Instalação</h1>
+      <p>Baixe os arquivos e siga o passo a passo para colocar seu time no ar.</p>
+    </div>
+
+    <div class="container">
+
+      <!-- DOWNLOAD -->
+      <div class="download-card">
+        <div>
+          <h2>Instale com um comando só</h2>
+          <p>Cola isso no terminal e o instalador faz tudo automaticamente. Ele vai perguntar sobre sua empresa e configurar os 20 agentes em menos de 5 minutos.</p>
+          <div class="download-files">
+            <span class="file-badge">20 agentes</span>
+            <span class="file-badge">6 squads</span>
+            <span class="file-badge">CLAUDE.md</span>
+            <span class="file-badge">empresa.yaml</span>
+            <span class="file-badge">install.sh</span>
+          </div>
+        </div>
       </div>
+      <div class="code-block">curl -fsSL https://raw.githubusercontent.com/lucasvalerio10/squads/main/squads/install.sh | bash<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
+
+      <!-- INSTALAÇÃO -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Instalação</h2>
+          <p>Siga os passos abaixo. Leva menos de 10 minutos.</p>
+        </div>
+        <div class="steps">
+
+          <div class="step">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <h4>Instalar o Git</h4>
+              <div class="os-tabs">
+                <button class="os-tab active" onclick="switchOS('windows',this)">Windows</button>
+                <button class="os-tab" onclick="switchOS('mac',this)">Mac</button>
+              </div>
+              <div id="os-windows">
+                <p>Baixe em <strong>git-scm.com</strong> e instale com as opções padrão. Depois abra o <strong>Git Bash</strong> para os próximos passos.</p>
+              </div>
+              <div id="os-mac" style="display:none">
+                <p>Já vem instalado no Mac. Se precisar, execute no Terminal:</p>
+                <div class="code-block">xcode-select --install<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <h4>Instalar o Node.js</h4>
+              <p>Acesse <strong>nodejs.org</strong>, baixe a versão <strong>LTS</strong> e instale normalmente. Verifique com:</p>
+              <div class="code-block">node --version<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <h4>Instalar o Claude Code</h4>
+              <p>Abra o terminal e execute:</p>
+              <div class="code-block">npm install -g @anthropic-ai/claude-code<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <h4>Instalar os Squads</h4>
+              <p><strong>Windows:</strong> use o Git Bash · <strong>Mac:</strong> use o Terminal</p>
+              <div class="code-block">curl -fsSL https://raw.githubusercontent.com/lucasvalerio10/squads/main/squads/install.sh | bash<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
+              <p style="margin-top:10px;font-size:13px;color:var(--text-muted);">O instalador vai fazer perguntas sobre sua empresa e criar o arquivo <strong>empresa.yaml</strong> automaticamente.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <h4>Abrir o Claude Code</h4>
+              <p>Abra o terminal em qualquer pasta do seu projeto:</p>
+              <div class="code-block">claude<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <h4>Fala o que você precisa</h4>
+              <p>Não precisa decorar nenhum comando. Só descreve o problema em português mesmo, tipo:</p>
+              <p style="margin-top:10px;font-size:13px;color:var(--text-muted);">"preciso montar minha estratégia da semana" · "quero criar uma proposta comercial" · "me ajuda a escrever um anúncio"</p>
+              <p style="margin-top:10px;font-size:13px;color:var(--text-muted);">O agente certo entra em ação sozinho.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-left"><div class="step-num">7</div></div>
+            <div class="step-content">
+              <h4>Pronto, seu time está no ar</h4>
+              <p>O Claude já sabe quem é sua empresa, o que você vende e pra quem. Cada resposta vai ter o contexto do seu negócio, não uma resposta genérica de internet.</p>
+              <div class="done-note"><svg class="icon"><use href="#i-check-circle"></use></svg>Daqui pra frente é só usar.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="code-block" style="max-width:100%;margin-top:0;font-size:13px;">curl -fsSL https://raw.githubusercontent.com/lucasvalerio10/squads/main/squads/install.sh | bash<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
-
-  <!-- INSTALAÇÃO -->
-  <div class="section-card">
-    <div class="section-card-header">
-      <h2>Instalação</h2>
-      <p>Siga os passos abaixo. Leva menos de 10 minutos.</p>
-    </div>
-    <div class="steps">
-
-      <div class="step">
-        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
-        <div class="step-content">
-          <h4>Instalar o Git</h4>
-          <div class="os-tabs">
-            <button class="os-tab active" onclick="switchOS('windows',this)">Windows</button>
-            <button class="os-tab" onclick="switchOS('mac',this)">Mac</button>
-          </div>
-          <div id="os-windows">
-            <p>Baixe em <strong>git-scm.com</strong> e instale com as opções padrão. Depois abra o <strong>Git Bash</strong> para os próximos passos.</p>
-          </div>
-          <div id="os-mac" style="display:none">
-            <p>Já vem instalado no Mac. Se precisar, execute no Terminal:</p>
-            <div class="code-block">xcode-select --install<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
-        <div class="step-content">
-          <h4>Instalar o Node.js</h4>
-          <p>Acesse <strong>nodejs.org</strong>, baixe a versão <strong>LTS</strong> e instale normalmente. Verifique com:</p>
-          <div class="code-block">node --version<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
-        <div class="step-content">
-          <h4>Instalar o Claude Code</h4>
-          <p>Abra o terminal e execute:</p>
-          <div class="code-block">npm install -g @anthropic-ai/claude-code<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
-        <div class="step-content">
-          <h4>Instalar os Squads</h4>
-          <p><strong>Windows:</strong> use o Git Bash · <strong>Mac:</strong> use o Terminal</p>
-          <div class="code-block">curl -fsSL https://raw.githubusercontent.com/lucasvalerio10/squads/main/squads/install.sh | bash<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
-          <p style="margin-top:10px;font-size:13px;color:var(--gray);">O instalador vai fazer perguntas sobre sua empresa e criar o arquivo <strong>empresa.yaml</strong> automaticamente.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
-        <div class="step-content">
-          <h4>Abrir o Claude Code</h4>
-          <p>Abra o terminal em qualquer pasta do seu projeto:</p>
-          <div class="code-block">claude<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
-        <div class="step-content">
-          <h4>Fala o que você precisa</h4>
-          <p>Não precisa decorar nenhum comando. Só descreve o problema em português mesmo, tipo:</p>
-          <p style="margin-top:10px;font-size:13px;color:var(--gray);">"preciso montar minha estratégia da semana" · "quero criar uma proposta comercial" · "me ajuda a escrever um anúncio"</p>
-          <p style="margin-top:10px;font-size:13px;color:var(--gray);">O agente certo entra em ação sozinho.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-left"><div class="step-num">7</div></div>
-        <div class="step-content">
-          <h4>Usar o primeiro squad</h4>
-          <p>Experimente com o Squad de Gestão:</p>
-          <div class="code-block">/squad-gestao:prioridade<button class="copy-btn" onclick="copyCode(this)">copiar</button></div>
-          <p style="margin-top:10px;font-size:13px;color:var(--gray);">Descreva sua semana e o agente gera seu plano com o contexto da sua empresa. ✅</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
 </div>
 
 <script>
@@ -198,29 +220,10 @@ function copyCode(btn) {
   const code = btn.parentElement.textContent.replace('copiar','').trim();
   navigator.clipboard.writeText(code).then(() => {
     btn.textContent = 'copiado!';
-    btn.style.background = 'var(--green-dark)';
-    btn.style.color = 'white';
-    setTimeout(() => { btn.textContent = 'copiar'; btn.style.background = ''; btn.style.color = ''; }, 2000);
+    btn.style.color = '#22d3ee';
+    setTimeout(() => { btn.textContent = 'copiar'; btn.style.color = ''; }, 2000);
   });
 }
-</script>
-
-<script>
-function toggleTheme() {
-  var current = document.documentElement.getAttribute('data-theme');
-  var next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('squads_theme', next);
-  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
-}
-// Set correct icon on load
-(function(){
-  var t = document.documentElement.getAttribute('data-theme');
-  window.addEventListener('DOMContentLoaded', function(){
-    var btn = document.getElementById('theme-btn');
-    if(btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
-  });
-})();
 </script>
 <script src="auth-guard.js"></script>
 </body>
